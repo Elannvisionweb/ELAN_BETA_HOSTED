@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "enigma";
+  src: url("https://font-b0575.web.app/enigma.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GALSB";
+  src: url("https://font-b0575.web.app/GALSB.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

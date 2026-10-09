@@ -1,0 +1,7 @@
+Deployement Log 2 by Nathan Alvarez (Accomodation) // reference change to push into prod
+Deployment Log 3 by Aric Maji (Accomodation form)
+Deployment Log 1 By Nathan and Abhinav (Contacts and shit and some other fixes)
+Depployement Log 3 By Nathan (Misc)
+Changes Made to the Frontend by aric for the workshop
+Changes Made to the Frontend by aric for the workshop update of image and link
+Migrated the repo to use cf pages by kamalkoushikd

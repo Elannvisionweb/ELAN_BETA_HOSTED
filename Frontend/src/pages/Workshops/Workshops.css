@@ -1,0 +1,129 @@
+.workshops {
+    background: #000000;
+    color: #717171;
+    height: auto;
+    padding: 15vh 2vw 12vh 2vw;
+    width: 92vw;
+}
+
+.workshop-title {
+    color: #ffffff;
+    font-size: 4vw;
+    font-weight: 300;
+}
+
+.workshop-description {
+    font-size: 1vw;
+}
+
+.workshop-tiles {
+    display: flex;
+    gap: 5vh;
+    height: 50vh;
+    margin-top: 10vh;
+    width: 100%;
+    /* wrap-option: wrap; */
+}
+
+.workshop-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    width: 50%;
+    margin-top: 3vh;
+}
+
+.workshop-tile > a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    width: 100%;
+}
+
+.workshop-tile img {
+    width: 22.5vw;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.workshop-tile img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffffff;
+}
+
+.workshop-tile-poster {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.workshop-tile-poster img {
+    border-radius: 2%;
+    width: 90%;
+}
+
+.workshop-tile-title {
+    color: #d3d3d3;
+    font-size: 1vw;
+    text-align: center;
+}
+
+.accomodation-link {
+    border-bottom: white 1px solid;
+    color: #ffffff;
+    font-size: 1.1vw;
+    margin-top: 1vh;
+    width: fit-content;
+}
+
+@media screen and (max-width: 992px) {
+    .workshops {
+        padding: 15vh 5vw 12vh 5vw;
+        width: 100vw;
+    }
+
+    .workshop-title {
+        font-size: 4vh;
+        padding-bottom: 1vh;
+    }
+
+    .workshop-description {
+        font-size: 1.5vh;
+    }
+
+    .workshop-tiles {
+        display: flex;
+        flex-direction: column;
+        gap: 10vh;
+        height: auto;
+        margin-top: 10vh;
+        width: 100%;
+    }
+
+    .workshop-tile {
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        width: 100%;
+    }
+
+    .workshop-tile img {
+        width: 80vw;
+    }
+
+    .workshop-tile-poster img {
+        width: 90%;
+    }
+
+    .workshop-tile-title {
+        color: #d3d3d3;
+        font-size: 5vw;
+        text-align: center;
+    }
+
+    .accomodation-link {
+        font-size: 4vw;
+    }
+}
+
