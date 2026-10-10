@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import VerticalMarquee from '/src/components/VerticalMarquee/VerticalMarquee.jsx';
-import { aboutFestInfo, domainsData } from '/src/data/about_data.js';
+import { domainsData } from '/src/data/about_data.js';
 import './AboutUs.css';
 
 // Crisp, dedicated SVG icons for social platforms
@@ -36,10 +36,10 @@ function AboutUs() {
   return (
     <>
       <Helmet>
-        <title>Elan & ηVision | About Us & Leadership</title>
+        <title>Elan & ηVision | Domains & Leadership</title>
         <meta
           name="description"
-          content="Learn about Elan & ηVision IIT Hyderabad — the domains, leadership, and heads behind South India's premier techno-cultural festival."
+          content="Meet the domains, leadership, and heads driving Elan & ηVision IIT Hyderabad."
         />
       </Helmet>
 
@@ -47,41 +47,15 @@ function AboutUs() {
       <VerticalMarquee />
 
       <main className="about-page-container">
-        {/* ================= HERO STORY SECTION ================= */}
-        <section className="about-hero-section">
-          <div className="about-hero-glow" aria-hidden="true" />
-          <div className="about-hero-content">
-            <span className="about-eyebrow">{aboutFestInfo.eyebrow}</span>
-            <h1 className="about-hero-title">{aboutFestInfo.title}</h1>
-            <p className="about-hero-tagline">{aboutFestInfo.tagline}</p>
-
-            <div className="about-story-paragraphs">
-              {aboutFestInfo.description.map((p, idx) => (
-                <p key={idx} className="about-desc-p">
-                  {p}
-                </p>
-              ))}
-            </div>
-
-            {/* Quick Stats Ticker */}
-            <div className="about-stats-ticker">
-              {aboutFestInfo.stats.map((st, idx) => (
-                <div key={idx} className="about-stat-box">
-                  <span className="about-stat-val">{st.value}</span>
-                  <span className="about-stat-lbl">{st.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ================= DOMAINS & HEADS EXPLORER ================= */}
         <section className="about-domains-section" id="domains-explorer">
+          <div className="about-domains-glow" aria-hidden="true" />
+          
           <div className="about-section-header">
             <span className="about-section-badge">// THE ARCHITECTS</span>
-            <h2 className="about-section-title">DOMAINS & LEADERSHIP</h2>
+            <h1 className="about-section-title">DOMAINS & LEADERSHIP</h1>
             <p className="about-section-subtitle">
-              Select any domain on the left to meet the heads and creative directors driving the festival.
+              Select any domain on the left to meet the heads and teams driving Elan &amp; ηVision.
             </p>
           </div>
 
@@ -96,7 +70,7 @@ function AboutUs() {
               <nav className="domains-nav-list" aria-label="Fest Domains">
                 {domainsData.map((domain, index) => {
                   const isActive = domain.id === activeDomainId;
-                  const formattedIndex = index < 10 ? `0${index}` : `${index}`;
+                  const formattedIndex = (index + 1).toString().padStart(2, '0');
 
                   return (
                     <button
@@ -123,8 +97,8 @@ function AboutUs() {
                     {activeDomain.heads.length} {activeDomain.heads.length === 1 ? 'Head' : 'Heads'}
                   </span>
                 </div>
-                <h3 className="domain-active-title">{activeDomain.name}</h3>
-                <h4 className="domain-active-tagline">{activeDomain.tagline}</h4>
+                <h2 className="domain-active-title">{activeDomain.name}</h2>
+                <h3 className="domain-active-tagline">{activeDomain.tagline}</h3>
                 <p className="domain-active-desc">{activeDomain.description}</p>
               </div>
 
