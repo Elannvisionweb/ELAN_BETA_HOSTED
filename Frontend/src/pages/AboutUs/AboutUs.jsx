@@ -91,90 +91,80 @@ function AboutUs() {
 
             {/* Heads Cards Grid */}
             <div className="heads-section">
-              <div className="heads-section-title">Domain Leadership</div>
+              <div className="heads-section-title">Domain Heads</div>
 
               <div className="heads-grid">
                 {activeDomain.heads.map((head, idx) => (
                   <div className="head-card" key={idx}>
-                    <div className="head-card-top">
-                      <span className="head-role-pill">{head.role}</span>
-                      <span className="head-card-num">0{idx + 1}</span>
+                    {/* Photo Container - Clean black container ready for future photos */}
+                    <div className="head-photo-box">
+                      {head.image ? (
+                        <img
+                          src={head.image}
+                          alt={head.name}
+                          className="head-photo-img"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="head-photo-black">
+                          <svg className="head-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                          </svg>
+                        </div>
+                      )}
+                      <div className="head-role-pill">{head.role}</div>
                     </div>
 
-                    <div className="head-card-body">
+                    {/* Head Meta & Info */}
+                    <div className="head-meta">
                       <h3 className="head-name">{head.name}</h3>
-                      <div className="head-domain-tag">{activeDomain.name}</div>
-                    </div>
+                      <div className="head-role">{head.role}</div>
 
-                    <div className="head-socials">
-                      <a
-                        href={head.instagram || "#"}
-                        target={head.instagram ? "_blank" : undefined}
-                        rel={head.instagram ? "noopener noreferrer" : undefined}
-                        className={`head-social-link ${!head.instagram ? "disabled" : ""}`}
-                        aria-label={`${head.name} Instagram`}
-                        title={head.instagram ? "Instagram Profile" : "Instagram"}
-                        onClick={(e) => {
-                          if (!head.instagram) e.preventDefault();
-                        }}
-                      >
-                        <InstagramIcon />
-                      </a>
-                      <a
-                        href={head.linkedin || "#"}
-                        target={head.linkedin ? "_blank" : undefined}
-                        rel={head.linkedin ? "noopener noreferrer" : undefined}
-                        className={`head-social-link ${!head.linkedin ? "disabled" : ""}`}
-                        aria-label={`${head.name} LinkedIn`}
-                        title={head.linkedin ? "LinkedIn Profile" : "LinkedIn"}
-                        onClick={(e) => {
-                          if (!head.linkedin) e.preventDefault();
-                        }}
-                      >
-                        <LinkedInIcon />
-                      </a>
-                      <a
-                        href={head.email ? `mailto:${head.email}` : "#"}
-                        className={`head-social-link ${!head.email ? "disabled" : ""}`}
-                        aria-label={`Email ${head.name}`}
-                        title={head.email ? `Email: ${head.email}` : "Email"}
-                        onClick={(e) => {
-                          if (!head.email) e.preventDefault();
-                        }}
-                      >
-                        <MailIcon />
-                      </a>
+                      <div className="head-socials">
+                        <a
+                          href={head.instagram || "#"}
+                          target={head.instagram ? "_blank" : undefined}
+                          rel={head.instagram ? "noopener noreferrer" : undefined}
+                          className={`head-social-link ${!head.instagram ? "disabled" : ""}`}
+                          aria-label={`${head.name} Instagram`}
+                          title={head.instagram ? "Instagram Profile" : "Instagram"}
+                          onClick={(e) => {
+                            if (!head.instagram) e.preventDefault();
+                          }}
+                        >
+                          <InstagramIcon />
+                        </a>
+                        <a
+                          href={head.linkedin || "#"}
+                          target={head.linkedin ? "_blank" : undefined}
+                          rel={head.linkedin ? "noopener noreferrer" : undefined}
+                          className={`head-social-link ${!head.linkedin ? "disabled" : ""}`}
+                          aria-label={`${head.name} LinkedIn`}
+                          title={head.linkedin ? "LinkedIn Profile" : "LinkedIn"}
+                          onClick={(e) => {
+                            if (!head.linkedin) e.preventDefault();
+                          }}
+                        >
+                          <LinkedInIcon />
+                        </a>
+                        <a
+                          href={head.email ? `mailto:${head.email}` : "#"}
+                          className={`head-social-link ${!head.email ? "disabled" : ""}`}
+                          aria-label={`Email ${head.name}`}
+                          title={head.email ? `Email: ${head.email}` : "Email"}
+                          onClick={(e) => {
+                            if (!head.email) e.preventDefault();
+                          }}
+                        >
+                          <MailIcon />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Coordinators Section if any exist */}
-            {activeDomain.coordinators && activeDomain.coordinators.length > 0 && (
-              <div className="coordinators-section">
-                <div className="heads-section-title">Domain Coordinators</div>
-                <div className="coordinators-grid">
-                  {activeDomain.coordinators.map((coord, idx) => (
-                    <div className="coordinator-item" key={idx}>
-                      <div className="coordinator-avatar">
-                        {coord.image ? (
-                          <img src={coord.image} alt={coord.name} loading="lazy" />
-                        ) : (
-                          <span className="coordinator-initial">
-                            {coord.name ? coord.name.charAt(0).toUpperCase() : "•"}
-                          </span>
-                        )}
-                      </div>
-                      <div className="coordinator-info">
-                        <span className="coordinator-name">{coord.name}</span>
-                        <span className="coordinator-role">{coord.role || "Coordinator"}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </section>
         </div>
       </main>

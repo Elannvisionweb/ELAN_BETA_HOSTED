@@ -8,6 +8,7 @@ export const domainsData = [
       {
         name: "Dhruv Goyal",
         role: "Overall Coordinator",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -15,12 +16,12 @@ export const domainsData = [
       {
         name: "Sai Midhun",
         role: "Overall Coordinator",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: []
+    ]
   },
   {
     id: "competitions",
@@ -31,6 +32,7 @@ export const domainsData = [
       {
         name: "Anushka Gupta",
         role: "Competitions Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -38,24 +40,11 @@ export const domainsData = [
       {
         name: "Gourish Dusa",
         role: "Competitions Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Priyanshu Sharma", role: "Coordinator" },
-      { name: "Pravin Rayate", role: "Coordinator" },
-      { name: "Tejas Singh Kohli", role: "Coordinator" },
-      { name: "Amar Shivaji Yadav", role: "Coordinator" },
-      { name: "Vaishnavi", role: "Coordinator" },
-      { name: "Vishnu Priya", role: "Coordinator" },
-      { name: "Shaik Amir Devapriya", role: "Coordinator" },
-      { name: "Dinesh Nandakumar G.R", role: "Coordinator" },
-      { name: "Narneni Vujjwala", role: "Coordinator" },
-      { name: "Surya Sr", role: "Coordinator" },
-      { name: "Anirudh Nair", role: "Coordinator" },
-      { name: "Srinivas Goud Burra", role: "Coordinator" }
     ]
   },
   {
@@ -67,6 +56,7 @@ export const domainsData = [
       {
         name: "Swara Ashok",
         role: "Creatives Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -74,21 +64,11 @@ export const domainsData = [
       {
         name: "Aman Krishna Marandi",
         role: "Creatives Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Jayanta Paul", role: "Coordinator" },
-      { name: "Smit Sonar", role: "Coordinator" },
-      { name: "Hardey Prem", role: "Coordinator" },
-      { name: "Jinny", role: "Coordinator" },
-      { name: "Palak Arya", role: "Coordinator" },
-      { name: "Bhoomi Ghati", role: "Coordinator" },
-      { name: "Atharva Godave", role: "Coordinator" },
-      { name: "Aleem Zayyan", role: "Coordinator" },
-      { name: "Ameya Dahane", role: "Coordinator" }
     ]
   },
   {
@@ -100,6 +80,7 @@ export const domainsData = [
       {
         name: "G. Srihaas",
         role: "Events Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -107,6 +88,7 @@ export const domainsData = [
       {
         name: "Manogna Parvathareddy",
         role: "Events Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -114,25 +96,11 @@ export const domainsData = [
       {
         name: "K. Akhil",
         role: "Events Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Srushti Hita", role: "Coordinator" },
-      { name: "Harichandana", role: "Coordinator" },
-      { name: "Aasritha", role: "Coordinator" },
-      { name: "Nipuna", role: "Coordinator" },
-      { name: "Akhith Reddy", role: "Coordinator" },
-      { name: "Himanshu Shukla", role: "Coordinator" },
-      { name: "Prathyshpandh", role: "Coordinator" },
-      { name: "Abhimanyu", role: "Coordinator" },
-      { name: "Draksha", role: "Coordinator" },
-      { name: "Yashaswi", role: "Coordinator" },
-      { name: "Sai Sasank", role: "Coordinator" },
-      { name: "Charan Teja", role: "Coordinator" },
-      { name: "Eswar Singh", role: "Coordinator" }
     ]
   },
   {
@@ -144,14 +112,11 @@ export const domainsData = [
       {
         name: "Karthika Boddupally",
         role: "Finance & Logistics Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Vemuri Venkata Phani Harshit", role: "Coordinator" },
-      { name: "Alla Jaya Sai Srikanth Reddy", role: "Coordinator" }
     ]
   },
   {
@@ -163,6 +128,7 @@ export const domainsData = [
       {
         name: "Kruti Mandovra",
         role: "PR, Outreach & Multimedia Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -170,6 +136,7 @@ export const domainsData = [
       {
         name: "Ansika Savireddy",
         role: "PR, Outreach & Multimedia Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -177,31 +144,11 @@ export const domainsData = [
       {
         name: "Prashant Kumar",
         role: "PR, Outreach & Multimedia Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Nandini Agarwal", role: "Coordinator" },
-      { name: "Akshat Verma", role: "Coordinator" },
-      { name: "Varnika Kaswan", role: "Coordinator" },
-      { name: "Premkumar Gandhi", role: "Coordinator" },
-      { name: "Anshu Kumar Ram", role: "Coordinator" },
-      { name: "Omkar Srishti", role: "Coordinator" },
-      { name: "Bhavya Sree Pinninti", role: "Coordinator" },
-      { name: "Nenevath Bharath", role: "Coordinator" },
-      { name: "Joga Abhiram", role: "Coordinator" },
-      { name: "Snehita Yansampally", role: "Coordinator" },
-      { name: "Prashanth Pidasarthi", role: "Coordinator" },
-      { name: "Anshika Jadhav", role: "Coordinator" },
-      { name: "Tolan Akshay", role: "Coordinator" },
-      { name: "Rishi J", role: "Coordinator" },
-      { name: "Karan", role: "Coordinator" },
-      { name: "A S Abhir", role: "Coordinator" },
-      { name: "Yash Shahi", role: "Coordinator" },
-      { name: "Devanandhan A", role: "Coordinator" },
-      { name: "Ojasva Singh", role: "Coordinator" }
     ]
   },
   {
@@ -213,17 +160,11 @@ export const domainsData = [
       {
         name: "Shreesh Kumar",
         role: "Production & Pronites Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Jnanwesh Sathista Kumar", role: "Coordinator" },
-      { name: "Tejas V Nayak", role: "Coordinator" },
-      { name: "Srimedha Aswatham", role: "Coordinator" },
-      { name: "Alisha Invernia", role: "Coordinator" },
-      { name: "Ragav V", role: "Coordinator" }
     ]
   },
   {
@@ -235,13 +176,15 @@ export const domainsData = [
       {
         name: "Shreedhanvi Yadlapally",
         role: "Sponsorship Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       },
       {
-        name: "Ameya Khonde",
+        name: "Ameye Khonde",
         role: "Sponsorship Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -249,27 +192,11 @@ export const domainsData = [
       {
         name: "Satya Chopra",
         role: "Sponsorship Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Samendra Kothari", role: "Coordinator" },
-      { name: "Pratik Agarwal", role: "Coordinator" },
-      { name: "Simi", role: "Coordinator" },
-      { name: "Aanya Kulkarni", role: "Coordinator" },
-      { name: "Abhinav Reddy", role: "Coordinator" },
-      { name: "Vatsalya Roop Chalumuri", role: "Coordinator" },
-      { name: "Vura Megha Naga Lakshmi Rachika", role: "Coordinator" },
-      { name: "Manish Kumar", role: "Coordinator" },
-      { name: "Vaibhav Jain", role: "Coordinator" },
-      { name: "Sooraj C Belagur", role: "Coordinator" },
-      { name: "Dixit", role: "Coordinator" },
-      { name: "Ayush Maurya", role: "Coordinator" },
-      { name: "Aditya Deshmukh", role: "Coordinator" },
-      { name: "Dhruv Guduguntla", role: "Coordinator" },
-      { name: "Jayaprakashan", role: "Coordinator" }
     ]
   },
   {
@@ -281,15 +208,11 @@ export const domainsData = [
       {
         name: "Preetham",
         role: "Web Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Priyanshi", role: "Coordinator" },
-      { name: "Pritam Hemani", role: "Coordinator" },
-      { name: "Ishaan Gupta", role: "Coordinator" }
     ]
   },
   {
@@ -301,6 +224,7 @@ export const domainsData = [
       {
         name: "A. Sai Tejeswar Reddy",
         role: "Hospitality & Transport Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
@@ -308,22 +232,11 @@ export const domainsData = [
       {
         name: "Charan Rongali",
         role: "Hospitality & Transport Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Reyanti Lakshmi Vineeth", role: "Coordinator" },
-      { name: "Ganta Tulasi Bravakna", role: "Coordinator" },
-      { name: "Rudra Aisgwar", role: "Coordinator" },
-      { name: "Gumam Mythili Dheeswari", role: "Coordinator" },
-      { name: "Sai Chaithanya", role: "Coordinator" },
-      { name: "Keerthi TVN", role: "Coordinator" },
-      { name: "Dussa Mohit Chandra", role: "Coordinator" },
-      { name: "Dandi Vamshi Kumar", role: "Coordinator" },
-      { name: "Tarun V", role: "Coordinator" },
-      { name: "Morusu Dhanusha", role: "Coordinator" }
     ]
   },
   {
@@ -335,22 +248,11 @@ export const domainsData = [
       {
         name: "Pavan Dev",
         role: "Infra & Security Head",
+        image: "",
         instagram: "",
         linkedin: "",
         email: ""
       }
-    ],
-    coordinators: [
-      { name: "Balaji", role: "Coordinator" },
-      { name: "Pranay", role: "Coordinator" },
-      { name: "Sindhu", role: "Coordinator" },
-      { name: "Ekram", role: "Coordinator" },
-      { name: "Sai Teja", role: "Coordinator" },
-      { name: "Durga Vara Prasad", role: "Coordinator" },
-      { name: "Maryram", role: "Coordinator" },
-      { name: "Chaitanya", role: "Coordinator" },
-      { name: "Harshit", role: "Coordinator" },
-      { name: "Srouman Raj", role: "Coordinator" }
     ]
   }
 ];

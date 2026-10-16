@@ -217,7 +217,7 @@
 
 .heads-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
   margin-bottom: 3.5rem;
 }
@@ -228,28 +228,67 @@
   border: 1px solid #1a1a1a;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 1.6rem 1.6rem 1.4rem 1.6rem;
-  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  overflow: hidden;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
-  min-height: 180px;
 }
 
 .head-card:hover {
   border-color: #333333;
-  background: #0d0d0d;
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
 }
 
-.head-card-top {
+.head-photo-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #000000;
+  border-bottom: 1px solid #1a1a1a;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.4rem;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.head-photo-black {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.head-placeholder-icon {
+  width: 52px;
+  height: 52px;
+  color: #1a1a1a;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.head-card:hover .head-placeholder-icon {
+  color: #2e2e2e;
+  transform: scale(1.06);
+}
+
+.head-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.head-card:hover .head-photo-img {
+  transform: scale(1.04);
 }
 
 .head-role-pill {
-  background: #111111;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.85);
   border: 1px solid #222222;
   color: #888888;
   font-size: 0.65rem;
@@ -258,34 +297,34 @@
   text-transform: uppercase;
   font-weight: 500;
   font-family: "Hanken Grotesk", sans-serif;
+  backdrop-filter: blur(4px);
+  z-index: 2;
 }
 
-.head-card-num {
-  font-family: "enigma", serif;
-  font-size: 0.85rem;
-  color: #333333;
-  letter-spacing: 1px;
-}
-
-.head-card-body {
-  margin-bottom: 1.5rem;
+/* Head Meta & Info */
+.head-meta {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .head-name {
   color: #ffffff;
   font-family: "enigma", serif;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 300;
   letter-spacing: 0.02em;
-  margin: 0 0 0.35rem 0;
+  margin: 0;
   line-height: 1.25;
 }
 
-.head-domain-tag {
-  color: #555555;
-  font-size: 0.72rem;
-  letter-spacing: 1px;
+.head-role {
+  color: #717171;
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin-top: 0.35rem;
+  margin-bottom: 1.1rem;
   font-family: "Hanken Grotesk", sans-serif;
 }
 
@@ -328,92 +367,6 @@
   border-color: #222222;
   color: #717171;
   transform: none;
-}
-
-/* ================= COORDINATORS / MEMBERS SECTION ================= */
-.coordinators-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid #1a1a1a;
-}
-
-.coordinators-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.8rem;
-}
-
-.coordinator-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  background: #0a0a0a;
-  border: 1px solid #1a1a1a;
-  padding: 0.8rem 1rem;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.coordinator-item:hover {
-  border-color: #333333;
-  background: #111111;
-}
-
-.coordinator-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #141414;
-  border: 1px solid #222222;
-  flex-shrink: 0;
-}
-
-.coordinator-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.coordinator-initial {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-family: "enigma", serif;
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: #cccccc;
-  background: #141414;
-}
-
-.coordinator-info {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.coordinator-name {
-  font-size: 0.85rem;
-  color: #ffffff;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: "Hanken Grotesk", sans-serif;
-}
-
-.coordinator-role {
-  font-size: 0.68rem;
-  color: #666666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 /* ================= RESPONSIVE QUERIES ================= */
@@ -460,10 +413,6 @@
   }
 
   .heads-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .coordinators-grid {
     grid-template-columns: 1fr;
   }
 }
