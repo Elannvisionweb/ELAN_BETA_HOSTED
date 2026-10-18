@@ -13,20 +13,29 @@
   position: relative;
   box-sizing: border-box;
   font-family: "Hanken Grotesk", "Poppins", sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-/* ================= HEADER SECTION ================= */
+/* ================= HEADER SECTION (Animation A) ================= */
 .zonals-header {
-  align-items: baseline;
-  border-bottom: 1px solid #1a1a1a;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 4.5vh;
   margin-top: 2vh;
-  padding-bottom: 2.4vh;
+  width: 100%;
+}
+
+.zonal-hero__top-row {
+  margin-bottom: 0.5rem;
+}
+
+.zonal-hero__main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   flex-wrap: wrap;
   gap: 1.2rem;
+  width: 100%;
 }
 
 .zonals-title {
@@ -62,6 +71,79 @@
 
 .zonals-meta-prize {
   color: #888888;
+}
+
+/* ── Animation A: Hero Entrance Sequenced Elements ──────────────────────── */
+.zonals-page .zonal-hero__eyebrow {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 800ms ease,
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .zonal-hero__title-mask {
+  overflow: hidden;
+  padding-bottom: 4px;
+}
+
+.zonals-page .zonals-header .zonals-title.zonal-title-reveal {
+  opacity: 0;
+  transform: translateY(105%);
+  transition:
+    opacity 900ms ease 160ms,
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1) 160ms;
+}
+
+.zonals-page .zonals-header-meta {
+  opacity: 0;
+  transform: translateX(18px);
+  transition:
+    opacity 800ms ease 380ms,
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 380ms;
+}
+
+.zonals-page .zonal-hero__divider {
+  width: 100%;
+  height: 1px;
+  background: #1a1a1a;
+  transform: scaleX(0);
+  transform-origin: left center;
+  margin-top: 2.2vh;
+  transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1) 480ms;
+}
+
+.zonals-page .zonals-overview-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 850ms ease 650ms,
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1) 650ms;
+}
+
+/* When .zonals-page is-ready triggers on page load */
+.zonals-page.is-ready .zonal-hero__eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.zonals-page.is-ready .zonals-header .zonals-title.zonal-title-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.zonals-page.is-ready .zonals-header-meta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.zonals-page.is-ready .zonal-hero__divider {
+  transform: scaleX(1);
+}
+
+.zonals-page.is-ready .zonals-overview-section {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Shared Section Pill Tag */
@@ -244,6 +326,18 @@
   flex-wrap: wrap;
 }
 
+.events-header-left {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  flex-wrap: wrap;
+}
+
+.events-header-titles {
+  display: flex;
+  flex-direction: column;
+}
+
 .events-filter-bar {
   display: flex;
   border: 1px solid #1a1a1a;
@@ -283,25 +377,184 @@
   font-weight: 600;
 }
 
-/* ================= EVENT CARDS ================= */
-.events-cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 3.5vh;
+/* ================= STICKY SPLIT-SCREEN SCROLL ANIMATION ================= */
+.zonals-page .zonal-scroll {
+  position: relative;
+  /* 380vh provides natural, responsive dwell time per event without endless dragging */
+  height: 380vh;
+  margin: 2vh 0 6vh 0;
+  isolation: isolate;
 }
 
-.zonal-event-card {
-  background: #0a0a0a;
-  border: 1px solid #1a1a1a;
+.zonals-page .zonal-scroll__sticky {
+  position: sticky;
+  top: 85px;
+  height: calc(100vh - 105px);
+  min-height: 580px;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  transition: border-color 0.25s ease;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: clamp(24px, 3.5vw, 56px);
+  align-items: stretch;
+  padding: clamp(24px, 3vw, 48px);
+  background: #000000;
+  border: 1px solid #1a1a1a;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* Left Pane: Detail Layers */
+.zonals-page .zonal-scroll__details {
   position: relative;
+  min-width: 0;
+  height: 100%;
+}
+
+.zonals-page .zonal-scroll__detail {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 10px 16px 20px 0;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(14px);
+
+  /* Silky smooth easeOutExpo transition */
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.35s;
+  will-change: opacity, transform;
+}
+
+.zonals-page .zonal-scroll__detail.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  z-index: 2;
+}
+
+.zonals-page .zonal-scroll__detail::-webkit-scrollbar {
+  width: 4px;
+}
+
+.zonals-page .zonal-scroll__detail::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 2px;
+}
+
+/* Right Pane: Visual Pin & Crossfade Stack */
+.zonals-page .zonal-scroll__visual {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: #080808;
+  border: 1px solid #1a1a1a;
+}
+
+.zonals-page .zonal-scroll__image {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.025);
+  pointer-events: none;
+  /* GPU-accelerated smooth crossfade without sluggish overlap lag */
+  transition:
+    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.zonals-page .zonal-scroll__image.is-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.zonals-page .zonal-scroll__image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(12%) contrast(1.04);
+  transition: filter 0.4s ease;
+}
+
+.zonals-page .zonal-scroll__visual:hover .zonal-scroll__image.is-active img {
+  filter: grayscale(0%) contrast(1.08) brightness(1.05);
+}
+
+/* Counter floating in Visual pane */
+.zonals-page .zonal-scroll__counter {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 3;
+  color: #ffffff;
+  font-family: "enigma", serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  background: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #252525;
+}
+
+.zonals-page .zonal-scroll__counter .counter-curr {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.zonals-page .zonal-scroll__counter .counter-sep {
+  color: #555555;
+  margin: 0 3px;
+}
+
+.zonals-page .zonal-scroll__counter .counter-total {
+  color: #777777;
+}
+
+/* Smooth Progress Rail at the base of the Visual pane */
+.zonals-page .zonal-scroll__progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 4;
   overflow: hidden;
 }
 
-.zonal-event-card:hover {
-  border-color: #333333;
+.zonals-page .zonal-scroll__progress-fill {
+  height: 100%;
+  background: #ffffff;
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Background Scroll Track driving the sticky transitions */
+.zonals-page .zonal-scroll__track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.zonals-page .zonal-scroll__step {
+  height: calc(380vh / 5);
+  min-height: 400px;
 }
 
 /* Left Information Pane */
@@ -440,6 +693,32 @@
   flex-wrap: wrap;
 }
 
+.unstop-register-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  padding: 0.85rem 1.6rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.unstop-register-btn:hover {
+  background: #ff0000;
+  border-color: #ff0000;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 0, 0, 0.35);
+}
+
 .qr-register-btn {
   background: #ffffff;
   color: #000000;
@@ -508,12 +787,19 @@
   height: 100%;
   object-fit: cover;
   filter: grayscale(15%) contrast(1.05);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  /* will-change hints GPU to composite this layer */
+  will-change: transform, filter;
+  /* Base transform uses --parallax-y set by scroll JS */
+  transform: translateY(var(--parallax-y, 0px)) scale(1);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.55s ease;
 }
 
 .zonal-event-card:hover .event-cover-image {
-  transform: scale(1.04);
-  filter: grayscale(0%) contrast(1.1);
+  /* Combines scroll parallax + hover zoom in one transform */
+  transform: translateY(var(--parallax-y, 0px)) scale(1.05);
+  filter: grayscale(0%) brightness(1.06) contrast(1.08);
 }
 
 .event-image-overlay {
@@ -989,5 +1275,334 @@
   .qr-mini-img {
     width: 70px;
     height: 70px;
+  }
+}
+
+/* ==========================================================================
+   SCROLL ANIMATIONS SYSTEM — ZONAL ELIMINATIONS PAGE ONLY
+   Scope: Exclusively within .zonals-page
+   ========================================================================== */
+
+/* ── Animation B: Scroll-Triggered Section Reveals ───────────────────────── */
+.zonals-page .zonal-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 750ms ease,
+    transform 750ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .zonal-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.zonals-page .zonal-reveal--delay-1 {
+  transition-delay: 80ms;
+}
+
+.zonals-page .zonal-reveal--delay-2 {
+  transition-delay: 160ms;
+}
+
+.zonals-page .zonal-reveal--delay-3 {
+  transition-delay: 240ms;
+}
+
+.zonals-page .zonal-reveal--delay-4 {
+  transition-delay: 320ms;
+}
+
+.zonals-page .zonal-reveal--delay-5 {
+  transition-delay: 400ms;
+}
+
+/* ── Animation F: Event Title Mask Reveal ─────────────────────────────────── */
+.zonals-page .zonal-title-mask {
+  overflow: hidden;
+  display: block;
+  padding-bottom: 4px;
+}
+
+.zonals-page .zonal-title-reveal {
+  opacity: 0;
+  transform: translateY(105%);
+  transition:
+    opacity 800ms ease,
+    transform 950ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .is-visible .zonal-title-reveal,
+.zonals-page .card-entered .zonal-title-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Animation C: Competition Card Entrance Sequence ─────────────────────── */
+.zonals-page .zonal-event-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 850ms ease,
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease;
+  transition-delay: calc(var(--card-index, 0) * 80ms);
+}
+
+.zonals-page .zonal-event-card.card-entered {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Internal card item sequence */
+.zonals-page .zonal-event-card .event-order,
+.zonals-page .zonal-event-card .event-badge,
+.zonals-page .zonal-event-card .event-date-chip,
+.zonals-page .zonal-event-card .event-desc,
+.zonals-page .zonal-event-card .event-prize-box,
+.zonals-page .zonal-event-card .event-meta-list,
+.zonals-page .zonal-event-card .event-actions-row {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 650ms ease,
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-order {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 60ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-badge,
+.zonals-page .zonal-event-card.card-entered .event-date-chip {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 100ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-title.zonal-title-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 140ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-desc {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 180ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-prize-box {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 240ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-meta-list {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 290ms);
+}
+
+.zonals-page .zonal-event-card.card-entered .event-actions-row {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--card-index, 0) * 80ms + 340ms);
+}
+
+/* ── Animation D: Subtle Image Parallax & Entrance ────────────────────────── */
+.zonals-page .event-media-pane {
+  position: relative;
+  background: #050505;
+  border-left: 1px solid #1a1a1a;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.zonals-page .event-cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(15%) contrast(1.05);
+  will-change: transform;
+  transform: translateY(var(--parallax-y, 0px)) scale(1.035);
+  transition:
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.55s ease;
+}
+
+.zonals-page .zonal-event-card.card-entered .event-cover-image {
+  transform: translateY(var(--parallax-y, 0px)) scale(1);
+}
+
+.zonals-page .zonal-event-card:hover .event-cover-image {
+  transform: translateY(var(--parallax-y, 0px)) scale(1.05);
+  filter: grayscale(0%) brightness(1.06) contrast(1.08);
+}
+
+/* ── Animation E: Circular Rotational Motif ───────────────────────────────── */
+.zonals-page .zonal-orbit {
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.6rem;
+}
+
+.zonals-page .zonal-orbit__ring {
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(255, 255, 255, 0.32);
+  border-radius: 50%;
+  animation: zonal-orbit-spin 28s linear infinite;
+}
+
+.zonals-page .zonal-orbit__marker {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.zonals-page .zonal-orbit__inner-ring {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+}
+
+@keyframes zonal-orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Animation H: Artist Section Divider & Tag Stagger ────────────────────── */
+.zonals-page .zonal-section-divider {
+  width: 100%;
+  height: 1px;
+  background: #1a1a1a;
+  margin: 2rem 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .zonals-artists-section.is-visible .zonal-section-divider {
+  transform: scaleX(1);
+}
+
+.zonals-page .artist-tag.zonal-reveal {
+  transition-delay: calc(var(--tag-index, 0) * 35ms);
+}
+
+/* ── Responsive Refinements ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .zonals-page .zonal-scroll__sticky {
+    gap: 24px;
+    padding: 24px;
+    top: 75px;
+    height: calc(100vh - 90px);
+  }
+}
+
+@media (max-width: 768px) {
+  .zonals-page .zonal-orbit {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+  }
+
+  .zonals-page .events-header-left {
+    gap: 1.2rem;
+  }
+
+  .zonals-page .event-cover-image {
+    will-change: auto;
+    transform: none !important;
+  }
+
+  /* Mobile: Natural flow rather than a cramped sticky frame */
+  .zonals-page .zonal-scroll {
+    height: auto;
+    margin: 2vh 0 4vh 0;
+  }
+
+  .zonals-page .zonal-scroll__sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: visible;
+    box-shadow: none;
+  }
+
+  .zonals-page .zonal-scroll__details {
+    height: auto;
+  }
+
+  .zonals-page .zonal-scroll__detail {
+    position: relative;
+    inset: auto;
+    display: none;
+    overflow: visible;
+    padding: 16px 0 0 0;
+    transform: none;
+    transition: opacity 300ms ease;
+  }
+
+  .zonals-page .zonal-scroll__detail.is-active {
+    display: flex;
+  }
+
+  .zonals-page .zonal-scroll__visual {
+    order: -1;
+    height: min(58svh, 420px);
+    min-height: 250px;
+  }
+
+  .zonals-page .zonal-scroll__track {
+    display: none;
+  }
+}
+
+/* ── Reduced Motion Fallback ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .zonals-page *,
+  .zonals-page *::before,
+  .zonals-page *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .zonals-page .zonal-scroll__detail,
+  .zonals-page .zonal-scroll__image {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .zonals-page .zonal-orbit__ring {
+    animation: none !important;
+  }
+
+  .zonals-page .zonal-hero__divider,
+  .zonals-page .zonal-section-divider {
+    transform: scaleX(1) !important;
   }
 }

@@ -49,6 +49,7 @@ export const zonalEvents = [
     prizeNumeric: 50000,
     date: "10th Oct",
     venue: "TBA (Refer Brochure: venue venue)",
+    unstopUrl: "https://unstop.com/p/breakfree-elan-nvision-2026-elan-nvision-iit-hyderabad-1599826",
     contact: {
       name: "Vaishnavi Ramkrishna",
       phone: "+91 9686252699",
@@ -68,6 +69,7 @@ export const zonalEvents = [
     prizeNumeric: 25000,
     date: "10th Oct",
     venue: "TBA (Refer Brochure: venue venue)",
+    unstopUrl: "https://unstop.com/p/break-free-solo-elan-nvision-2026-elan-nvision-iit-hyderabad-1600402",
     contact: {
       name: "Surya Sri",
       phone: "+91 91544 28402",
@@ -87,6 +89,7 @@ export const zonalEvents = [
     prizeNumeric: 40000,
     date: "10th Oct",
     venue: "TBA (Refer Brochure: venue venue)",
+    unstopUrl: "https://unstop.com/p/synced-souls-elan-nvision-2026-elan-nvision-iit-hyderabad-1600387",
     contact: {
       name: "Pravin Parate",
       phone: "+91 80554 46009",
@@ -106,6 +109,7 @@ export const zonalEvents = [
     prizeNumeric: 50000,
     date: "10th Oct",
     venue: "TBA (Refer Brochure: venue venue)",
+    unstopUrl: "https://unstop.com/p/glitz-and-glamour-elan-nvision-2026-elan-nvision-iit-hyderabad-1599845",
     contact: {
       name: "Amir Shaikh",
       phone: "+91 98906 43997",
@@ -125,6 +129,7 @@ export const zonalEvents = [
     prizeNumeric: 40000,
     date: "10th Oct",
     venue: "TBA (Refer Brochure: venue venue)",
+    unstopUrl: "https://unstop.com/p/campus-idol-elan-nvision-2026-iit-hyderabad-1599650",
     contact: {
       name: "Priyanshu Sharma",
       phone: "+91 90506 24137",

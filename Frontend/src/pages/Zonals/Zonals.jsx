@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
+import { useLenis } from "lenis/react";
 import VerticalMarquee from "/src/components/VerticalMarquee/VerticalMarquee.jsx";
 import {
   zonalsMeta,
@@ -10,6 +11,14 @@ import {
 import "./Zonals.css";
 
 // SVG Icons matching the website's minimalist aesthetic
+const ExternalLinkIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/>
+    <line x1="10" y1="14" x2="21" y2="3"/>
+  </svg>
+);
+
 const PhoneIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -64,8 +73,232 @@ const CloseIcon = () => (
 );
 
 function Zonals() {
+  const [isReady, setIsReady] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [activeModalEvent, setActiveModalEvent] = useState(null);
+
+  // Statistics count-up state
+  const [statsValues, setStatsValues] = useState({
+    attendees: "50,000+",
+    participants: "12,500+",
+    competitions: "30+",
+    reach: "1.2M+",
+    partners: "15+",
+  });
+  const statsRef = useRef(null);
+  const countUpTriggered = useRef(false);
+
+  // ── Animation A: Hero readiness on mount ──────────────────────────────────
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 40);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ── Animation B & H: IntersectionObserver for Section Reveals ─────────────
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const revealElements = document.querySelectorAll(".zonals-page .zonal-reveal");
+    if (!revealElements.length) return;
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -40px 0px",
+      }
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+    return () => revealObserver.disconnect();
+  }, []);
+
+  // ── Smooth Sticky Split-Screen Scroll Tracking ───────────────────────────
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+  const sectionRefs = useRef([]);
+  const scrollContainerRef = useRef(null);
+
+  const updateActiveIndex = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const stickyH = window.innerHeight;
+    const totalScrollable = rect.height - stickyH;
+    if (totalScrollable <= 0) return;
+
+    const scrolled = -rect.top;
+
+    if (scrolled <= 0) {
+      if (activeIndexRef.current !== 0) {
+        activeIndexRef.current = 0;
+        setActiveIndex(0);
+      }
+      return;
+    }
+
+    if (scrolled >= totalScrollable) {
+      const last = zonalEvents.length - 1;
+      if (activeIndexRef.current !== last) {
+        activeIndexRef.current = last;
+        setActiveIndex(last);
+      }
+      return;
+    }
+
+    const progress = scrolled / totalScrollable;
+    const count = zonalEvents.length;
+    const stepSize = 1 / count;
+    const deadzone = 0.025; // 2.5% buffer zone completely eliminates boundary flutter
+
+    const current = activeIndexRef.current;
+    let next = current;
+
+    // Check forward transition
+    if (current < count - 1) {
+      const forwardThreshold = (current + 1) * stepSize + deadzone;
+      if (progress >= forwardThreshold) {
+        next = Math.min(count - 1, Math.floor(progress / stepSize));
+      }
+    }
+
+    // Check backward transition
+    if (current > 0) {
+      const backwardThreshold = current * stepSize - deadzone;
+      if (progress < backwardThreshold) {
+        next = Math.max(0, Math.floor(progress / stepSize));
+      }
+    }
+
+    if (next !== current) {
+      activeIndexRef.current = next;
+      setActiveIndex(next);
+    }
+  }, []);
+
+  // Sync with Lenis RAF frame loop
+  const lenis = useLenis(() => {
+    updateActiveIndex();
+  });
+
+  // RAF-throttled window scroll listener fallback
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateActiveIndex();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [updateActiveIndex]);
+
+  const scrollToEvent = (index) => {
+    activeIndexRef.current = index;
+    setActiveIndex(index);
+    const container = scrollContainerRef.current;
+    if (container) {
+      const rect = container.getBoundingClientRect();
+      const containerTop = window.scrollY + rect.top;
+      const totalScrollable = rect.height - window.innerHeight;
+      const targetY = containerTop + (index / (zonalEvents.length - 1)) * totalScrollable + 5;
+      if (lenis) {
+        lenis.scrollTo(targetY, { duration: 0.6, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      } else {
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }
+    } else {
+      const steps = sectionRefs.current;
+      if (steps && steps[index]) {
+        steps[index].scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
+
+  // ── Animation G: Statistics Count-Up ──────────────────────────────────────
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const element = statsRef.current;
+    if (!element) return;
+
+    // Start with 0 values before count-up triggers
+    setStatsValues({
+      attendees: "0+",
+      participants: "0+",
+      competitions: "0+",
+      reach: "0.0M+",
+      partners: "0+",
+    });
+
+    const statsObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !countUpTriggered.current) {
+          countUpTriggered.current = true;
+          statsObserver.unobserve(element);
+
+          const duration = 1200; // ms
+          const startTime = performance.now();
+
+          const animateCount = (now) => {
+            const elapsed = now - startTime;
+            const rawProgress = Math.min(1, elapsed / duration);
+            // Smooth easeOutExpo
+            const progress = rawProgress === 1 ? 1 : 1 - Math.pow(2, -10 * rawProgress);
+
+            const attendeesVal = Math.floor(progress * 50000).toLocaleString();
+            const participantsVal = Math.floor(progress * 12500).toLocaleString();
+            const competitionsVal = Math.floor(progress * 30);
+            const reachVal = (progress * 1.2).toFixed(1);
+            const partnersVal = Math.floor(progress * 15);
+
+            setStatsValues({
+              attendees: `${attendeesVal}+`,
+              participants: `${participantsVal}+`,
+              competitions: `${competitionsVal}+`,
+              reach: `${reachVal}M+`,
+              partners: `${partnersVal}+`,
+            });
+
+            if (rawProgress < 1) {
+              requestAnimationFrame(animateCount);
+            } else {
+              setStatsValues({
+                attendees: "50,000+",
+                participants: "12,500+",
+                competitions: "30+",
+                reach: "1.2M+",
+                partners: "15+",
+              });
+            }
+          };
+
+          requestAnimationFrame(animateCount);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    statsObserver.observe(element);
+    return () => statsObserver.disconnect();
+  }, []);
 
   const filteredEvents =
     selectedCategory === "all"
@@ -85,20 +318,30 @@ function Zonals() {
       {/* Standard festival vertical marquee */}
       <VerticalMarquee />
 
-      <main className="zonals-page">
-        {/* ================= HEADER SECTION ================= */}
+      <main className={`zonals-page ${isReady ? "is-ready" : ""}`}>
+        {/* ================= HEADER SECTION (Animation A) ================= */}
         <header className="zonals-header">
-          <h1 className="zonals-title">Zonal Eliminations</h1>
-          <div className="zonals-header-meta">
-            <span className="zonals-meta-date">10 OCT</span>
-            <span className="zonals-meta-sep">/</span>
-            <span className="zonals-meta-prize">₹2,00,000 PRIZE WORTH</span>
+          <div className="zonal-hero__top-row">
+            <span className="zonal-hero__eyebrow section-pill-tag">
+              IIT HYDERABAD PRESENTS • ELAN & ηVISION 2027
+            </span>
           </div>
+          <div className="zonal-hero__main-row">
+            <div className="zonal-title-mask zonal-hero__title-mask">
+              <h1 className="zonals-title zonal-title-reveal">Zonal Eliminations</h1>
+            </div>
+            <div className="zonals-header-meta">
+              <span className="zonals-meta-date">10 OCT</span>
+              <span className="zonals-meta-sep">/</span>
+              <span className="zonals-meta-prize">₹2,00,000 PRIZE WORTH</span>
+            </div>
+          </div>
+          <div className="zonal-hero__divider" />
         </header>
 
-        {/* ================= EDITORIAL OVERVIEW ================= */}
-        <section className="zonals-overview-section" aria-label="About Zonal Eliminations">
-          <div className="zonals-intro-block">
+        {/* ================= EDITORIAL OVERVIEW (Animation B) ================= */}
+        <section className="zonals-overview-section zonal-reveal" aria-label="About Zonal Eliminations">
+          <div className="zonals-intro-block zonal-reveal zonal-reveal--delay-1">
             <p className="zonals-lead-statement">
               {zonalsMeta.intro}
             </p>
@@ -111,7 +354,7 @@ function Zonals() {
             </div>
           </div>
 
-          <div className="zonals-specs-column">
+          <div className="zonals-specs-column zonal-reveal zonal-reveal--delay-2">
             <div className="spec-row">
               <span className="spec-label">ELIMINATIONS DATE</span>
               <span className="spec-val">{zonalsMeta.date}</span>
@@ -133,36 +376,40 @@ function Zonals() {
           </div>
         </section>
 
-        {/* ================= STATS STRIP ================= */}
-        <section className="zonals-stats-strip" aria-label="Festival Metrics">
-          <div className="stat-unit">
-            <span className="stat-num">50,000+</span>
+        {/* ================= STATS STRIP (Animation G Count-Up) ================= */}
+        <section
+          ref={statsRef}
+          className="zonals-stats-strip zonal-reveal"
+          aria-label="Festival Metrics"
+        >
+          <div className="stat-unit zonal-reveal zonal-reveal--delay-1">
+            <span className="stat-num">{statsValues.attendees}</span>
             <span className="stat-sub">Attendees</span>
           </div>
           <div className="stat-divider" />
-          <div className="stat-unit">
-            <span className="stat-num">12,500+</span>
+          <div className="stat-unit zonal-reveal zonal-reveal--delay-2">
+            <span className="stat-num">{statsValues.participants}</span>
             <span className="stat-sub">Participants</span>
           </div>
           <div className="stat-divider" />
-          <div className="stat-unit">
-            <span className="stat-num">30+</span>
+          <div className="stat-unit zonal-reveal zonal-reveal--delay-3">
+            <span className="stat-num">{statsValues.competitions}</span>
             <span className="stat-sub">Competitions</span>
           </div>
           <div className="stat-divider" />
-          <div className="stat-unit">
-            <span className="stat-num">1.2M+</span>
+          <div className="stat-unit zonal-reveal zonal-reveal--delay-4">
+            <span className="stat-num">{statsValues.reach}</span>
             <span className="stat-sub">Social Reach</span>
           </div>
           <div className="stat-divider" />
-          <div className="stat-unit">
-            <span className="stat-num">15+</span>
+          <div className="stat-unit zonal-reveal zonal-reveal--delay-5">
+            <span className="stat-num">{statsValues.partners}</span>
             <span className="stat-sub">Media Partners</span>
           </div>
         </section>
 
         {/* ================= FESTIVAL CONTEXT NOTE ================= */}
-        <div className="fest-context-note">
+        <div className="fest-context-note zonal-reveal">
           <p>
             Elan & nVision is the annual techno-cultural fest of IIT Hyderabad and one of the largest
             college fests of Southern India. It brings together performances, music, and stories alongside
@@ -170,26 +417,31 @@ function Zonals() {
           </p>
         </div>
 
-        {/* ================= EVENTS AT A GLANCE & FILTER ================= */}
+        {/* ================= EVENTS AT A GLANCE & FILTER (Animation E Motif) ================= */}
         <section className="zonals-events-section" id="events" aria-label="Zonal Competitions">
-          <div className="events-section-header">
-            <div>
-              <div className="section-pill-tag">FLAGSHIP COMPETITIONS</div>
-              <h2 className="section-title">Events at a Glance</h2>
+          <div className="events-section-header zonal-reveal">
+            <div className="events-header-left">
+              <div className="events-header-titles">
+                <div className="section-pill-tag">FLAGSHIP COMPETITIONS</div>
+                <div className="zonal-title-mask">
+                  <h2 className="section-title zonal-title-reveal">Events at a Glance</h2>
+                </div>
+              </div>
+              {/* Circular rotational motif (Animation E) — one understated accent for the page */}
+              <div className="zonal-orbit" aria-hidden="true" title="Festival Identity Motif">
+                <div className="zonal-orbit__ring" />
+                <div className="zonal-orbit__marker" />
+                <div className="zonal-orbit__inner-ring" />
+              </div>
             </div>
+
             {/* Filter Pills matching Competitions & About Us tab styles */}
             <nav className="events-filter-bar" aria-label="Event Filter">
-              <button
-                className={`filter-tab ${selectedCategory === "all" ? "active" : ""}`}
-                onClick={() => setSelectedCategory("all")}
-              >
-                All Events ({zonalEvents.length})
-              </button>
-              {zonalEvents.map((ev) => (
+              {zonalEvents.map((ev, idx) => (
                 <button
                   key={ev.id}
-                  className={`filter-tab ${selectedCategory === ev.id ? "active" : ""}`}
-                  onClick={() => setSelectedCategory(ev.id)}
+                  className={`filter-tab ${activeIndex === idx ? "active" : ""}`}
+                  onClick={() => scrollToEvent(idx)}
                 >
                   {ev.name}
                 </button>
@@ -197,121 +449,152 @@ function Zonals() {
             </nav>
           </div>
 
-          {/* ================= EVENT CARDS LIST ================= */}
-          <div className="events-cards-container">
-            {filteredEvents.map((event, index) => (
-              <article className="zonal-event-card" key={event.id} id={event.id}>
-                {/* Left Side: Information */}
-                <div className="event-info-pane">
-                  <div className="event-top-meta">
-                    <span className="event-order">0{index + 1}</span>
-                    <span className="event-badge">{event.category}</span>
-                    <span className="event-date-chip">
-                      <CalendarIcon />
-                      {event.date}
-                    </span>
-                  </div>
-
-                  <h3 className="event-title">{event.name}</h3>
-
-                  <p className="event-desc">{event.description}</p>
-
-                  <div className="event-prize-box">
-                    <div className="prize-label">PRIZE POOL</div>
-                    <div className="prize-amount">{event.prizePool}</div>
-                  </div>
-
-                  {/* Details Grid */}
-                  <div className="event-meta-list">
-                    <div className="event-meta-row">
-                      <span className="meta-row-label">
-                        <LocationIcon /> VENUE:
-                      </span>
-                      <span className="meta-row-val">{event.venue}</span>
-                    </div>
-
-                    <div className="event-meta-row">
-                      <span className="meta-row-label">
-                        <PhoneIcon /> COORDINATOR:
-                      </span>
-                      <span className="meta-row-val">
-                        {event.contact.name} (
-                        <a href={`tel:${event.contact.tel}`} className="contact-tel-link">
-                          {event.contact.phone}
-                        </a>
-                        )
+          {/* ================= STICKY SPLIT-SCREEN EXPERIENCE ================= */}
+          <div className="zonal-scroll" ref={scrollContainerRef}>
+            <div className="zonal-scroll__sticky">
+              {/* LEFT: Event Details changing on scroll */}
+              <div className="zonal-scroll__details">
+                {zonalEvents.map((event, index) => (
+                  <article
+                    key={event.id}
+                    className={`zonal-scroll__detail ${activeIndex === index ? "is-active" : ""}`}
+                    aria-hidden={activeIndex !== index}
+                    inert={activeIndex !== index ? "" : undefined}
+                  >
+                    <div className="event-top-meta">
+                      <span className="event-order">0{index + 1}</span>
+                      <span className="event-badge">{event.category}</span>
+                      <span className="event-date-chip">
+                        <CalendarIcon />
+                        {event.date}
                       </span>
                     </div>
-                  </div>
 
-                  {/* Actions */}
-                  <div className="event-actions-row">
-                    <button
-                      className="qr-register-btn"
-                      onClick={() => setActiveModalEvent(event)}
-                      title="Scan QR Code to register"
-                    >
-                      <QrIcon />
-                      <span>Scan QR to Register</span>
-                    </button>
-                    <a href={`tel:${event.contact.tel}`} className="contact-call-btn">
-                      <PhoneIcon />
-                      <span>Contact Lead</span>
-                    </a>
-                  </div>
-                </div>
+                    <h2 className="event-title">{event.name}</h2>
 
-                {/* Right Side: Event Image & QR Preview */}
-                <div className="event-media-pane">
-                  <div className="event-image-wrapper">
-                    <img
-                      src={event.image}
-                      alt={`${event.name} performance`}
-                      className="event-cover-image"
-                      loading="lazy"
-                    />
-                    <div className="event-image-overlay"></div>
-                  </div>
+                    <p className="event-desc">{event.description}</p>
 
-                  {/* QR Box in corner of card */}
+                    <div className="event-prize-box">
+                      <div className="prize-label">PRIZE POOL</div>
+                      <div className="prize-amount">{event.prizePool}</div>
+                    </div>
+
+                    {/* Details Grid */}
+                    <div className="event-meta-list">
+                      <div className="event-meta-row">
+                        <span className="meta-row-label">
+                          <LocationIcon /> VENUE:
+                        </span>
+                        <span className="meta-row-val">{event.venue}</span>
+                      </div>
+
+                      <div className="event-meta-row">
+                        <span className="meta-row-label">
+                          <PhoneIcon /> COORDINATOR:
+                        </span>
+                        <span className="meta-row-val">
+                          {event.contact.name} (
+                          <a href={`tel:${event.contact.tel}`} className="contact-tel-link">
+                            {event.contact.phone}
+                          </a>
+                          )
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions: Direct Unstop Registration Link */}
+                    <div className="event-actions-row">
+                      <a
+                        href={event.unstopUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="unstop-register-btn"
+                        title={`Register for ${event.name} on Unstop`}
+                      >
+                        <span>Register on Unstop</span>
+                        <ExternalLinkIcon />
+                      </a>
+                      <a href={`tel:${event.contact.tel}`} className="contact-call-btn">
+                        <PhoneIcon />
+                        <span>Contact Lead</span>
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {/* RIGHT: Visual (Pinned Crossfading Image + Counter + Progress Rail) */}
+              <div className="zonal-scroll__visual">
+                {zonalEvents.map((event, index) => (
                   <div
-                    className="event-qr-mini-card"
-                    onClick={() => setActiveModalEvent(event)}
-                    role="button"
-                    tabIndex={0}
-                    title="Click to view large registration QR"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") setActiveModalEvent(event);
-                    }}
+                    key={event.id}
+                    className={`zonal-scroll__image ${activeIndex === index ? "is-active" : ""}`}
+                    aria-hidden={activeIndex !== index}
                   >
                     <img
-                      src={event.qrImage}
-                      alt={`${event.name} QR Code`}
-                      className="qr-mini-img"
+                      src={event.image}
+                      alt={event.name}
+                      loading={index < 2 ? "eager" : "lazy"}
                     />
-                    <div className="qr-mini-label">
-                      <span>SCAN TO REGISTER</span>
-                    </div>
+                    <div className="event-image-overlay" />
                   </div>
+                ))}
+
+                {/* Counter */}
+                <div className="zonal-scroll__counter" aria-hidden="true">
+                  <span className="counter-curr">0{activeIndex + 1}</span>
+                  <span className="counter-sep"> / </span>
+                  <span className="counter-total">0{zonalEvents.length}</span>
                 </div>
-              </article>
-            ))}
+
+                {/* Smooth Progress Rail */}
+                <div className="zonal-scroll__progress-track" aria-hidden="true">
+                  <div
+                    className="zonal-scroll__progress-fill"
+                    style={{
+                      width: `${((activeIndex + 1) / zonalEvents.length) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* SCROLL TRACK: 5 sequential steps driving the sticky transitions */}
+            <div className="zonal-scroll__track" aria-hidden="true">
+              {zonalEvents.map((event, index) => (
+                <div
+                  key={event.id}
+                  ref={(el) => {
+                    sectionRefs.current[index] = el;
+                  }}
+                  className={`zonal-scroll__step ${activeIndex === index ? "is-active" : ""}`}
+                  aria-label={event.name}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ================= PAST ARTISTS ================= */}
-        <section className="zonals-artists-section" aria-label="Artists who graced our stage">
+        {/* ================= PAST ARTISTS (Animation H) ================= */}
+        <section className="zonals-artists-section zonal-reveal" aria-label="Artists who graced our stage">
           <div className="artists-header">
             <div className="section-pill-tag">STAGE LEGACY</div>
-            <h2 className="section-title">Artists Who Have Graced Our Stage</h2>
+            <div className="zonal-title-mask">
+              <h2 className="section-title zonal-title-reveal">Artists Who Have Graced Our Stage</h2>
+            </div>
             <p className="artists-intro">
               Our fest has played host to some of the biggest names in music and comedy over the
               years. Past editions have featured renowned headliners alongside acclaimed acts.
             </p>
           </div>
+          <div className="zonal-section-divider" />
           <div className="artists-tag-cloud">
             {pastArtists.map((artist, idx) => (
-              <div className="artist-tag" key={idx}>
+              <div
+                className="artist-tag zonal-reveal"
+                key={idx}
+                style={{ "--tag-index": idx }}
+              >
                 <span className="artist-star">✦</span>
                 <span className="artist-name">{artist}</span>
               </div>
@@ -319,12 +602,14 @@ function Zonals() {
           </div>
         </section>
 
-        {/* ================= CONTACTS & HELP DESK ================= */}
-        <section className="zonals-contact-section" id="contacts" aria-label="Event Inquiries">
+        {/* ================= CONTACTS & HELP DESK (Animation H) ================= */}
+        <section className="zonals-contact-section zonal-reveal" id="contacts" aria-label="Event Inquiries">
           <div className="contact-card">
             <div className="contact-card-header">
               <div className="section-pill-tag">NEED ASSISTANCE?</div>
-              <h2 className="section-title">General Contacts & Support</h2>
+              <div className="zonal-title-mask">
+                <h2 className="section-title zonal-title-reveal">General Contacts & Support</h2>
+              </div>
               <p className="contact-intro-text">
                 For queries regarding registrations, event rules, or festival logistics, please reach
                 out to our outreach and event coordination team.
@@ -332,7 +617,7 @@ function Zonals() {
             </div>
 
             <div className="contact-links-grid">
-              <div className="contact-block">
+              <div className="contact-block zonal-reveal zonal-reveal--delay-1">
                 <div className="block-label">EVENT QUERIES</div>
                 <div className="coordinators-list">
                   {generalContacts.contacts.map((c, idx) => (
@@ -346,7 +631,7 @@ function Zonals() {
                 </div>
               </div>
 
-              <div className="contact-block">
+              <div className="contact-block zonal-reveal zonal-reveal--delay-2">
                 <div className="block-label">OFFICIAL EMAIL</div>
                 <div className="email-display">
                   <a
@@ -362,7 +647,7 @@ function Zonals() {
                 </div>
               </div>
 
-              <div className="contact-block">
+              <div className="contact-block zonal-reveal zonal-reveal--delay-3">
                 <div className="block-label">COMPETITION PORTAL</div>
                 <div className="unstop-box">
                   <p className="unstop-desc">{generalContacts.unstopInfo}</p>
