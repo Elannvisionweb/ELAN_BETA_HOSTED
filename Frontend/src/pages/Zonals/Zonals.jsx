@@ -74,7 +74,6 @@ const CloseIcon = () => (
 
 function Zonals() {
   const [isReady, setIsReady] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [activeModalEvent, setActiveModalEvent] = useState(null);
 
   // Statistics count-up state
@@ -123,111 +122,90 @@ function Zonals() {
     return () => revealObserver.disconnect();
   }, []);
 
-  // ── Smooth Sticky Split-Screen Scroll Tracking ───────────────────────────
+  // ── Scroll-controlled competition wheel ──────────────────────────────────
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
-  const sectionRefs = useRef([]);
   const scrollContainerRef = useRef(null);
+  const stickyRef = useRef(null);
+  const wheelRef = useRef(null);
 
-  const updateActiveIndex = useCallback(() => {
+  const updateWheelFromScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (!container) return;
+    const sticky = stickyRef.current;
+    if (!container || !sticky) return;
 
     const rect = container.getBoundingClientRect();
-    const stickyH = window.innerHeight;
-    const totalScrollable = rect.height - stickyH;
+    const stickyH = sticky.offsetHeight;
+    const totalScrollable = container.offsetHeight - stickyH;
     if (totalScrollable <= 0) return;
 
-    const scrolled = -rect.top;
-
-    if (scrolled <= 0) {
-      if (activeIndexRef.current !== 0) {
-        activeIndexRef.current = 0;
-        setActiveIndex(0);
-      }
-      return;
-    }
-
-    if (scrolled >= totalScrollable) {
-      const last = zonalEvents.length - 1;
-      if (activeIndexRef.current !== last) {
-        activeIndexRef.current = last;
-        setActiveIndex(last);
-      }
-      return;
-    }
-
+    const scrolled = Math.min(totalScrollable, Math.max(0, -rect.top));
     const progress = scrolled / totalScrollable;
     const count = zonalEvents.length;
-    const stepSize = 1 / count;
-    const deadzone = 0.025; // 2.5% buffer zone completely eliminates boundary flutter
+    const degreesPerEvent = 360 / count;
+    const rotation = progress * degreesPerEvent * (count - 1);
+    const next = Math.min(count - 1, Math.max(0, Math.round(progress * (count - 1))));
 
-    const current = activeIndexRef.current;
-    let next = current;
-
-    // Check forward transition
-    if (current < count - 1) {
-      const forwardThreshold = (current + 1) * stepSize + deadzone;
-      if (progress >= forwardThreshold) {
-        next = Math.min(count - 1, Math.floor(progress / stepSize));
-      }
+    // The DOM transform is updated directly so the wheel follows native/Lenis scroll
+    // at full fidelity without re-rendering the whole event panel on every frame.
+    if (wheelRef.current) {
+      wheelRef.current.style.setProperty("--wheel-rotation", `${rotation}deg`);
+      wheelRef.current.style.setProperty("--wheel-counter-rotation", `${-rotation}deg`);
     }
 
-    // Check backward transition
-    if (current > 0) {
-      const backwardThreshold = current * stepSize - deadzone;
-      if (progress < backwardThreshold) {
-        next = Math.max(0, Math.floor(progress / stepSize));
-      }
-    }
-
-    if (next !== current) {
+    if (next !== activeIndexRef.current) {
       activeIndexRef.current = next;
       setActiveIndex(next);
     }
   }, []);
 
-  // Sync with Lenis RAF frame loop
+  // Lenis owns the smooth scrolling RAF; the native listener keeps the wheel
+  // correct if Lenis is unavailable or the user changes viewport size.
   const lenis = useLenis(() => {
-    updateActiveIndex();
+    updateWheelFromScroll();
   });
 
-  // RAF-throttled window scroll listener fallback
   useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateActiveIndex();
-          ticking = false;
-        });
-        ticking = true;
-      }
+    let animationFrame = null;
+    const scheduleUpdate = () => {
+      if (animationFrame) return;
+      animationFrame = requestAnimationFrame(() => {
+        updateWheelFromScroll();
+        animationFrame = null;
+      });
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [updateActiveIndex]);
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, [updateWheelFromScroll]);
 
   const scrollToEvent = (index) => {
-    activeIndexRef.current = index;
-    setActiveIndex(index);
     const container = scrollContainerRef.current;
-    if (container) {
+    const sticky = stickyRef.current;
+    if (container && sticky) {
       const rect = container.getBoundingClientRect();
       const containerTop = window.scrollY + rect.top;
-      const totalScrollable = rect.height - window.innerHeight;
-      const targetY = containerTop + (index / (zonalEvents.length - 1)) * totalScrollable + 5;
+      const totalScrollable = container.offsetHeight - sticky.offsetHeight;
+      if (totalScrollable <= 0) {
+        activeIndexRef.current = index;
+        setActiveIndex(index);
+        return;
+      }
+      const targetY = containerTop + (index / (zonalEvents.length - 1)) * totalScrollable;
       if (lenis) {
         lenis.scrollTo(targetY, { duration: 0.6, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
       } else {
         window.scrollTo({ top: targetY, behavior: "smooth" });
       }
     } else {
-      const steps = sectionRefs.current;
-      if (steps && steps[index]) {
-        steps[index].scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      activeIndexRef.current = index;
+      setActiveIndex(index);
     }
   };
 
@@ -299,11 +277,6 @@ function Zonals() {
     statsObserver.observe(element);
     return () => statsObserver.disconnect();
   }, []);
-
-  const filteredEvents =
-    selectedCategory === "all"
-      ? zonalEvents
-      : zonalEvents.filter((ev) => ev.id === selectedCategory);
 
   return (
     <>
@@ -449,10 +422,22 @@ function Zonals() {
             </nav>
           </div>
 
-          {/* ================= STICKY SPLIT-SCREEN EXPERIENCE ================= */}
+          {/* ================= SCROLL-CONTROLLED COMPETITION WHEEL ================= */}
           <div className="zonal-scroll" ref={scrollContainerRef}>
-            <div className="zonal-scroll__sticky">
-              {/* LEFT: Event Details changing on scroll */}
+            <div className="zonal-scroll__sticky" ref={stickyRef}>
+              {/* The active event image is contained within this sticky scene so it never leaks onto other sections. */}
+              <div className="zonal-scroll__background" aria-hidden="true">
+                {zonalEvents.map((event, index) => (
+                  <div
+                    key={event.id}
+                    className={`zonal-scroll__background-image ${activeIndex === index ? "is-active" : ""}`}
+                  >
+                    <img src={event.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
+                  </div>
+                ))}
+              </div>
+
+              {/* LEFT: Event details stay in lockstep with the fixed selector. */}
               <div className="zonal-scroll__details">
                 {zonalEvents.map((event, index) => (
                   <article
@@ -502,7 +487,7 @@ function Zonals() {
                       </div>
                     </div>
 
-                    {/* Actions: Direct Unstop Registration Link */}
+                    {/* Actions use the exact registration URL and QR assigned to this event. */}
                     <div className="event-actions-row">
                       <a
                         href={event.unstopUrl}
@@ -514,6 +499,14 @@ function Zonals() {
                         <span>Register on Unstop</span>
                         <ExternalLinkIcon />
                       </a>
+                      <button
+                        type="button"
+                        className="qr-register-btn event-qr-button"
+                        onClick={() => setActiveModalEvent(event)}
+                      >
+                        <QrIcon />
+                        <span>Registration QR</span>
+                      </button>
                       <a href={`tel:${event.contact.tel}`} className="contact-call-btn">
                         <PhoneIcon />
                         <span>Contact Lead</span>
@@ -523,54 +516,80 @@ function Zonals() {
                 ))}
               </div>
 
-              {/* RIGHT: Visual (Pinned Crossfading Image + Counter + Progress Rail) */}
-              <div className="zonal-scroll__visual">
-                {zonalEvents.map((event, index) => (
-                  <div
-                    key={event.id}
-                    className={`zonal-scroll__image ${activeIndex === index ? "is-active" : ""}`}
-                    aria-hidden={activeIndex !== index}
-                  >
-                    <img
-                      src={event.image}
-                      alt={event.name}
-                      loading={index < 2 ? "eager" : "lazy"}
-                    />
-                    <div className="event-image-overlay" />
+              {/* RIGHT: A physical-style wheel. Its transform is driven only by scroll progress. */}
+              <div className="zonal-scroll__wheel-stage">
+                <div className="wheel-stage__eyebrow" aria-hidden="true">SCROLL TO SELECT</div>
+                <div className="wheel-stage__assembly">
+                  <div className="wheel-stage__indicator" aria-hidden="true">
+                    <span />
+                    <small>ACTIVE</small>
                   </div>
-                ))}
+                  <div
+                    className="zonal-scroll__wheel"
+                    ref={wheelRef}
+                    style={{ "--wheel-rotation": "0deg", "--wheel-counter-rotation": "0deg" }}
+                    aria-label={`Competition wheel. ${zonalEvents[activeIndex].name} is selected.`}
+                  >
+                  <div className="wheel-ring wheel-ring--outer" aria-hidden="true" />
+                  <div className="wheel-ring wheel-ring--inner" aria-hidden="true" />
+                  <div className="wheel-spokes" aria-hidden="true">
+                    {zonalEvents.map((event, index) => (
+                      <span
+                        key={event.id}
+                        style={{ "--spoke-angle": `${index * -72}deg` }}
+                      />
+                    ))}
+                  </div>
 
-                {/* Counter */}
-                <div className="zonal-scroll__counter" aria-hidden="true">
-                  <span className="counter-curr">0{activeIndex + 1}</span>
-                  <span className="counter-sep"> / </span>
-                  <span className="counter-total">0{zonalEvents.length}</span>
+                  {zonalEvents.map((event, index) => (
+                    <div
+                      key={event.id}
+                      className={`wheel-event ${activeIndex === index ? "is-active" : ""}`}
+                      style={{
+                        // The selected competition resolves at the left-most point of the
+                        // wheel: visible even though the wheel centre lives off-screen right.
+                        "--event-angle": `${180 - index * 72}deg`,
+                        "--event-counter-angle": `${-180 + index * 72}deg`,
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className="wheel-event__card"
+                        onClick={() => scrollToEvent(index)}
+                        aria-pressed={activeIndex === index}
+                        aria-label={`Select ${event.name}`}
+                      >
+                        <span className="wheel-event__image-wrap">
+                          <img
+                            src={event.image}
+                            alt=""
+                            loading={index < 2 ? "eager" : "lazy"}
+                          />
+                        </span>
+                        <span className="wheel-event__copy">
+                          <span className="wheel-event__number">0{index + 1}</span>
+                          <span className="wheel-event__name">{event.name}</span>
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+
+                    <div className="wheel-hub" aria-hidden="true">
+                      <span className="wheel-hub__index">0{activeIndex + 1}</span>
+                      <span className="wheel-hub__label">OF 0{zonalEvents.length}</span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Smooth Progress Rail */}
-                <div className="zonal-scroll__progress-track" aria-hidden="true">
-                  <div
-                    className="zonal-scroll__progress-fill"
-                    style={{
-                      width: `${((activeIndex + 1) / zonalEvents.length) * 100}%`,
-                    }}
-                  />
+                <div className="wheel-stage__progress" aria-hidden="true">
+                  <span>01</span>
+                  <div>
+                    <i style={{ transform: `scaleX(${(activeIndex + 1) / zonalEvents.length})` }} />
+                  </div>
+                  <span>05</span>
                 </div>
               </div>
-            </div>
 
-            {/* SCROLL TRACK: 5 sequential steps driving the sticky transitions */}
-            <div className="zonal-scroll__track" aria-hidden="true">
-              {zonalEvents.map((event, index) => (
-                <div
-                  key={event.id}
-                  ref={(el) => {
-                    sectionRefs.current[index] = el;
-                  }}
-                  className={`zonal-scroll__step ${activeIndex === index ? "is-active" : ""}`}
-                  aria-label={event.name}
-                />
-              ))}
             </div>
           </div>
         </section>

@@ -377,12 +377,12 @@
   font-weight: 600;
 }
 
-/* ================= STICKY SPLIT-SCREEN SCROLL ANIMATION ================= */
+/* ================= SCROLL-CONTROLLED COMPETITION WHEEL ================= */
 .zonals-page .zonal-scroll {
   position: relative;
-  /* 380vh provides natural, responsive dwell time per event without endless dragging */
-  height: 380vh;
-  margin: 2vh 0 6vh 0;
+  /* Four generous turns move between five 72° selection positions. */
+  height: 460vh;
+  margin: 2vh 0 8vh;
   isolation: isolate;
 }
 
@@ -392,21 +392,66 @@
   height: calc(100vh - 105px);
   min-height: 580px;
   display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
-  gap: clamp(24px, 3.5vw, 56px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.7fr);
+  gap: clamp(24px, 4vw, 64px);
   align-items: stretch;
   padding: clamp(24px, 3vw, 48px);
-  background: #000000;
-  border: 1px solid #1a1a1a;
+  background: #030303;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-sizing: border-box;
   overflow: hidden;
+  isolation: isolate;
   z-index: 2;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* A contained crossfade backdrop: it lives only for this sticky wheel scene. */
+.zonals-page .zonal-scroll__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.zonals-page .zonal-scroll__background::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.97) 0%, rgba(0, 0, 0, 0.86) 39%, rgba(0, 0, 0, 0.56) 64%, rgba(0, 0, 0, 0.28) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, transparent 42%);
+  content: "";
+}
+
+.zonals-page .zonal-scroll__background-image {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.035);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zonals-page .zonal-scroll__background-image.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.zonals-page .zonal-scroll__background-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.78) contrast(1.06) brightness(0.82);
 }
 
 /* Left Pane: Detail Layers */
 .zonals-page .zonal-scroll__details {
   position: relative;
+  z-index: 2;
   min-width: 0;
   height: 100%;
 }
@@ -450,111 +495,264 @@
   border-radius: 2px;
 }
 
-/* Right Pane: Visual Pin & Crossfade Stack */
-.zonals-page .zonal-scroll__visual {
+/* Right Pane: The circular selector is transformed exclusively by scroll. */
+.zonals-page .zonal-scroll__wheel-stage {
+  --wheel-size: min(60vw, 78vh, 820px);
   position: relative;
-  height: 100%;
+  z-index: 3;
   min-width: 0;
-  overflow: hidden;
-  background: #080808;
-  border: 1px solid #1a1a1a;
+  min-height: 0;
+  overflow: visible;
+  border: 0;
 }
 
-.zonals-page .zonal-scroll__image {
+.zonals-page .wheel-stage__assembly {
+  position: relative;
+  top: 50%;
+  left: calc(100% + clamp(56px, 6vw, 116px));
+  width: var(--wheel-size);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.zonals-page .zonal-scroll__wheel {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transform: scale(1.025);
-  pointer-events: none;
-  /* GPU-accelerated smooth crossfade without sluggish overlap lag */
-  transition:
-    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  border-radius: 50%;
+  transform: rotate(var(--wheel-rotation));
+  will-change: transform;
 }
 
-.zonals-page .zonal-scroll__image.is-active {
-  opacity: 1;
-  transform: scale(1);
-  z-index: 1;
+.zonals-page .wheel-ring {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.zonals-page .wheel-ring--outer {
+  inset: 9%;
+  border-color: rgba(255, 255, 255, 0.32);
+  clip-path: inset(0 50% 0 0);
+  opacity: 0.9;
+  transform: rotate(var(--wheel-counter-rotation));
+}
+
+.zonals-page .wheel-ring--inner {
+  display: none;
+}
+
+.zonals-page .wheel-spokes {
+  display: none;
+}
+
+.zonals-page .wheel-spokes span {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 0.5px);
+  width: 1px;
+  height: 35%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(calc(var(--spoke-angle) + 180deg));
+  transform-origin: 50% 0;
+}
+
+.zonals-page .wheel-event {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--event-angle));
+  pointer-events: none;
+}
+
+.zonals-page .wheel-event.is-active {
+  z-index: 2;
+}
+
+.zonals-page .wheel-event__card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(172px, 15.5vw, 222px);
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.3rem;
+  color: rgba(255, 255, 255, 0.54);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transform: translate(-50%, -50%) rotate(calc(var(--event-counter-angle) + var(--wheel-counter-rotation)));
+  opacity: 0.7;
+  transition: color 300ms ease, opacity 300ms ease, background-color 300ms ease, border-color 300ms ease;
   pointer-events: auto;
 }
 
-.zonals-page .zonal-scroll__image img {
+.zonals-page .wheel-event__card:hover,
+.zonals-page .wheel-event__card:focus-visible {
+  color: #ffffff;
+  outline: none;
+}
+
+.zonals-page .wheel-event.is-active .wheel-event__card {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.48);
+  opacity: 1;
+}
+
+.zonals-page .wheel-event__image-wrap {
+  width: 66px;
+  height: 66px;
+  flex: 0 0 66px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+}
+
+.zonals-page .wheel-event__image-wrap img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center;
-  filter: grayscale(12%) contrast(1.04);
-  transition: filter 0.4s ease;
+  filter: grayscale(1) contrast(1.08) brightness(0.62);
+  transition: filter 300ms ease;
 }
 
-.zonals-page .zonal-scroll__visual:hover .zonal-scroll__image.is-active img {
-  filter: grayscale(0%) contrast(1.08) brightness(1.05);
+.zonals-page .wheel-event.is-active .wheel-event__image-wrap img,
+.zonals-page .wheel-event__card:hover .wheel-event__image-wrap img {
+  filter: grayscale(0.05) contrast(1.06) brightness(1);
 }
 
-/* Counter floating in Visual pane */
-.zonals-page .zonal-scroll__counter {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 3;
-  color: #ffffff;
-  font-family: "enigma", serif;
-  font-size: 1.15rem;
-  letter-spacing: 0.12em;
-  background: rgba(8, 8, 8, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 0.4rem 0.9rem;
-  border: 1px solid #252525;
+.zonals-page .wheel-event.is-active .wheel-event__image-wrap {
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06);
 }
 
-.zonals-page .zonal-scroll__counter .counter-curr {
-  color: #ffffff;
-  font-weight: 500;
-}
-
-.zonals-page .zonal-scroll__counter .counter-sep {
-  color: #555555;
-  margin: 0 3px;
-}
-
-.zonals-page .zonal-scroll__counter .counter-total {
-  color: #777777;
-}
-
-/* Smooth Progress Rail at the base of the Visual pane */
-.zonals-page .zonal-scroll__progress-track {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.12);
-  z-index: 4;
-  overflow: hidden;
-}
-
-.zonals-page .zonal-scroll__progress-fill {
-  height: 100%;
-  background: #ffffff;
-  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Background Scroll Track driving the sticky transitions */
-.zonals-page .zonal-scroll__track {
-  position: absolute;
-  inset: 0;
+.zonals-page .wheel-event__copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  pointer-events: none;
-  z-index: 0;
+  gap: 0.22rem;
 }
 
-.zonals-page .zonal-scroll__step {
-  height: calc(380vh / 5);
-  min-height: 400px;
+.zonals-page .wheel-event.is-active .wheel-event__copy::after {
+  width: 28px;
+  height: 1px;
+  margin-top: 0.32rem;
+  background: currentColor;
+  content: "";
+}
+
+.zonals-page .wheel-event__number {
+  color: currentColor;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.zonals-page .wheel-event__name {
+  font-family: "enigma", serif;
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  white-space: normal;
+}
+
+.zonals-page .wheel-hub {
+  display: none;
+}
+
+.zonals-page .wheel-hub__index {
+  color: #ffffff;
+  font-family: "enigma", serif;
+  font-size: clamp(1rem, 1.8vw, 1.55rem);
+  letter-spacing: 0.08em;
+}
+
+.zonals-page .wheel-hub__label {
+  margin-top: 0.18rem;
+  color: #787878;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.zonals-page .wheel-stage__eyebrow {
+  position: absolute;
+  top: 1.15rem;
+  right: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.zonals-page .wheel-stage__indicator {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.zonals-page .wheel-stage__indicator span {
+  width: 1px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.zonals-page .wheel-stage__indicator small {
+  color: #737373;
+  font-size: 0.51rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.zonals-page .wheel-stage__indicator::after {
+  width: clamp(28px, 3vw, 48px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.16);
+  content: "";
+  transform: rotate(90deg) translateX(32px);
+}
+
+.zonals-page .wheel-stage__progress {
+  position: absolute;
+  bottom: 1.3rem;
+  right: 0;
+  width: min(74%, 300px);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #737373;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transform: none;
+}
+
+.zonals-page .wheel-stage__progress>div {
+  height: 1px;
+  flex: 1;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.zonals-page .wheel-stage__progress i {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #ffffff;
+  transform-origin: left center;
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Left Information Pane */
@@ -808,11 +1006,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.6) 100%);
   pointer-events: none;
 }
 
@@ -1059,6 +1255,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1083,6 +1280,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1484,8 +1682,13 @@
 }
 
 @keyframes zonal-orbit-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Animation H: Artist Section Divider & Tag Stagger ────────────────────── */
@@ -1514,6 +1717,15 @@
     padding: 24px;
     top: 75px;
     height: calc(100vh - 90px);
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.55fr);
+  }
+
+  .zonals-page .zonal-scroll__wheel-stage {
+    --wheel-size: min(68vw, 68vh, 620px);
+  }
+
+  .zonals-page .wheel-event__card {
+    width: clamp(156px, 19vw, 210px);
   }
 }
 
@@ -1533,55 +1745,177 @@
     transform: none !important;
   }
 
-  /* Mobile: Natural flow rather than a cramped sticky frame */
+  /* Mobile keeps the wheel as a focused, full-screen scene. The details panel
+     scrolls independently, so the page scroll is still reserved for selection. */
   .zonals-page .zonal-scroll {
-    height: auto;
-    margin: 2vh 0 4vh 0;
+    height: 430svh;
+    margin: 2vh 0 6vh;
   }
 
   .zonals-page .zonal-scroll__sticky {
-    position: relative;
-    top: auto;
-    height: auto;
+    position: sticky;
+    top: 10svh;
+    height: calc(90svh - 16px);
     min-height: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    overflow: visible;
-    box-shadow: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(218px, 43%) minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.72);
   }
 
   .zonals-page .zonal-scroll__details {
+    grid-row: 2;
+    min-height: 0;
     height: auto;
+    padding: 0 clamp(18px, 5vw, 32px);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.72) 18%, rgba(0, 0, 0, 0.9));
   }
 
   .zonals-page .zonal-scroll__detail {
-    position: relative;
-    inset: auto;
-    display: none;
-    overflow: visible;
-    padding: 16px 0 0 0;
-    transform: none;
-    transition: opacity 300ms ease;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 18px 2px 26px 0;
   }
 
   .zonals-page .zonal-scroll__detail.is-active {
     display: flex;
   }
 
-  .zonals-page .zonal-scroll__visual {
-    order: -1;
-    height: min(58svh, 420px);
-    min-height: 250px;
+  .zonals-page .zonal-scroll__wheel-stage {
+    grid-row: 1;
+    order: initial;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    --wheel-size: min(112vw, 500px);
+    border-bottom: 1px solid #1a1a1a;
+    border-left: none;
   }
 
-  .zonals-page .zonal-scroll__track {
-    display: none;
+  .zonals-page .wheel-stage__assembly {
+    top: 54%;
+    left: calc(100% + 11vw);
+  }
+
+  .zonals-page .wheel-stage__eyebrow,
+  .zonals-page .wheel-stage__progress {
+    right: clamp(14px, 4vw, 22px);
+  }
+
+  .zonals-page .wheel-stage__eyebrow {
+    top: 1rem;
+    font-size: 0.58rem;
+  }
+
+  .zonals-page .wheel-stage__indicator {
+    left: 55%;
+  }
+
+  .zonals-page .wheel-stage__indicator span {
+    height: 42px;
+  }
+
+  .zonals-page .wheel-stage__indicator::after {
+    width: 28px;
+    transform: rotate(90deg) translateX(21px);
+  }
+
+  .zonals-page .wheel-stage__progress {
+    bottom: 1rem;
+    width: min(64%, 250px);
+  }
+
+  .zonals-page .wheel-event__card {
+    width: min(166px, 46vw);
+    gap: 0.58rem;
+    padding: 0.25rem;
+    background: rgba(0, 0, 0, 0.48);
+  }
+
+  .zonals-page .wheel-event__image-wrap {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .zonals-page .wheel-event__name {
+    font-size: 0.98rem;
+  }
+
+  .zonals-page .wheel-event__number {
+    font-size: 0.56rem;
+  }
+
+  .zonals-page .event-top-meta {
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .zonals-page .event-date-chip {
+    width: 100%;
+  }
+
+  .zonals-page .event-title {
+    font-size: clamp(1.8rem, 9vw, 2.3rem);
+    margin-bottom: 0.7rem;
+  }
+
+  .zonals-page .event-desc {
+    font-size: 0.87rem;
+    line-height: 1.55;
+    margin-bottom: 1.15rem;
+  }
+
+  .zonals-page .event-prize-box {
+    margin-bottom: 1.15rem;
+    padding: 0.78rem 1rem;
+  }
+
+  .zonals-page .event-meta-list {
+    margin-bottom: 1.15rem;
+    padding-top: 0.9rem;
+  }
+
+  .zonals-page .event-actions-row {
+    gap: 0.65rem;
+  }
+
+  .zonals-page .zonal-scroll__background::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0.62) 44%, rgba(0, 0, 0, 0.94) 100%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.12));
+  }
+}
+
+@media (max-width: 600px) {
+  .zonals-page .zonal-scroll__sticky {
+    grid-template-rows: minmax(208px, 42%) minmax(0, 1fr);
+  }
+
+  .zonals-page .wheel-stage__assembly {
+    left: calc(100% + 9vw);
+  }
+
+  .zonals-page .wheel-event__card {
+    width: min(156px, 48vw);
+  }
+
+  .zonals-page .unstop-register-btn,
+  .zonals-page .event-qr-button,
+  .zonals-page .contact-call-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
 /* ── Reduced Motion Fallback ─────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+
   .zonals-page *,
   .zonals-page *::before,
   .zonals-page *::after {
