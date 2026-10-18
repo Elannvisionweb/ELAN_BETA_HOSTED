@@ -110,7 +110,7 @@ function NavBar() {
             <Link to="/events">EVENTS</Link>
           </div>
           <div className="mobile-hide">
-            <Link to="/competitions">COMPETITIONS</Link>
+            <Link to="/zonals">ZONAL ELIMINATIONS</Link>
           </div>
           {/* <div className='mobile-hide'>
             <Link to='/nexus'>NEXUS</Link>
@@ -165,14 +165,14 @@ function NavBar() {
           <div
             className={
               "menu-link" +
-              (location.pathname === "/competitions" ? " active-menu-link" : "")
+              (location.pathname === "/zonals" ||
+              location.pathname === "/zonal-eliminations"
+                ? " active-menu-link"
+                : "")
             }
           >
-            <a
-              href="/competitions"
-              onClick={(e) => onClickLink(e, "/competitions")}
-            >
-              Competitions
+            <a href="/zonals" onClick={(e) => onClickLink(e, "/zonals")}>
+              Zonal Eliminations
             </a>
           </div>
           <div

@@ -11,6 +11,7 @@ import Team from "/src/pages/Team/Team.jsx";
 import Workshops from "/src/pages/Workshops/Workshops.jsx";
 import CampusAmbassador from "/src/pages/CampusAmbassador/CampusAmbassador.jsx";
 import AboutUs from "/src/pages/AboutUs/AboutUs.jsx";
+import Zonals from "/src/pages/Zonals/Zonals.jsx";
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect } from "react";
 import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
@@ -62,7 +63,7 @@ function App() {
             element={
               <>
                 <NavBar />
-                <Competitions />
+                <Zonals />
                 <Footer />
               </>
             }
@@ -178,6 +179,30 @@ function App() {
               <>
                 <NavBar />
                 <AboutUs />
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            exact
+            path="/zonals"
+            element={
+              <>
+                <NavBar />
+                <Zonals />
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            exact
+            path="/zonal-eliminations"
+            element={
+              <>
+                <NavBar />
+                <Zonals />
                 <Footer />
               </>
             }
