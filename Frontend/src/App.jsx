@@ -70,6 +70,17 @@ function App() {
           />
           <Route
             exact
+            path="/zonals"
+            element={
+              <>
+                <NavBar />
+                <Zonals />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/nexus"
             element={
               <>
