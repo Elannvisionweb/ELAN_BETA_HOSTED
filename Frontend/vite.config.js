@@ -18,10 +18,7 @@ export default defineConfig({
           if (existsSync(resolve(__dirname, 'robots.txt'))) {
             copyFileSync(resolve(__dirname, 'robots.txt'), resolve(__dirname, 'dist/robots.txt'));
           }
-          if (existsSync(resolve(__dirname, '_redirects'))) {
-            copyFileSync(resolve(__dirname, '_redirects'), resolve(__dirname, 'dist/_redirects'));
-          }
-          console.log('Copied sitemap.xml, robots.txt, and _redirects to dist folder.');
+          console.log('Copied sitemap.xml and robots.txt to dist folder.');
         } catch (err) {
           console.error('Error copying files:', err);
         }
