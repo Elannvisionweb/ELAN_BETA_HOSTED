@@ -9,7 +9,6 @@ import Home from "/src/pages/Home/Home.jsx";
 import SocialCause from "/src/pages/Social Cause/SocialCause.jsx";
 import Team from "/src/pages/Team/Team.jsx";
 import Workshops from "/src/pages/Workshops/Workshops.jsx";
-import CampusAmbassador from "/src/pages/CampusAmbassador/CampusAmbassador.jsx";
 import AboutUs from "/src/pages/AboutUs/AboutUs.jsx";
 import Zonals from "/src/pages/Zonals/Zonals.jsx";
 import { ReactLenis, useLenis } from "lenis/react";
@@ -147,29 +146,6 @@ function App() {
             }
           />
 
-          <Route
-            exact
-            path="/ca"
-            element={
-              <>
-                <NavBar />
-                <CampusAmbassador />
-                <Footer />
-              </>
-            }
-          />
-
-          <Route
-            exact
-            path="/campus-ambassador"
-            element={
-              <>
-                <NavBar />
-                <CampusAmbassador />
-                <Footer />
-              </>
-            }
-          />
 
           <Route
             exact

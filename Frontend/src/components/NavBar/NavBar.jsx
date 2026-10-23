@@ -122,9 +122,6 @@ function NavBar() {
             <Link to="/accommodation">ACCOMMODATION</Link>
           </div>
           <div className="mobile-hide">
-            <Link to="/ca">CA PROGRAM</Link>
-          </div>
-          <div className="mobile-hide">
             <Link to="/about">ABOUT US</Link>
           </div>
           <div className="menu-open" onClick={toggleMenu}>
@@ -217,18 +214,6 @@ function NavBar() {
               onClick={(e) => onClickLink(e, "/accommodation")}
             >
               Accommodation
-            </a>
-          </div>
-          <div
-            className={
-              "menu-link" +
-              (location.pathname === "/ca" || location.pathname === "/campus-ambassador"
-                ? " active-menu-link"
-                : "")
-            }
-          >
-            <a href="/ca" onClick={(e) => onClickLink(e, "/ca")}>
-              CA Program
             </a>
           </div>
           <div
