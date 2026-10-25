@@ -4,8 +4,9 @@ import eth_hack_poster from '/src/assets/workshops_posters/eth_hack_poster.jpeg'
 import aiml_poster from '/src/assets/workshops_posters/aiml_poster.jpeg';
 import workshop_poster from '/src/assets/workshops_posters/workshop_poster.png';
 import workshop_poster3 from '/src/assets/workshops_posters/workshop_poster3.jpg';
-import {Link} from 'react-router-dom';
-import {Helmet} from 'react-helmet';
+import workshop from '/src/assets/workshops_posters/workshop.png';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 function Workshops() {
@@ -14,7 +15,7 @@ function Workshops() {
       <Helmet>
         <title>Elan&nVision | Workshops</title>
       </Helmet>
-      <VerticalMarquee/>
+      <VerticalMarquee />
       <div className='workshops'>
         <div className='workshop-title'>Workshops</div>
         <div className='workshop-description'>
@@ -24,7 +25,7 @@ function Workshops() {
           that&apos;s not all, we believe a good break makes learning easier and one more focused,
           which is why we have a whole set of numerous games set up for the participants during
           the break and a catch-up session with the students of IIT-Hyderabad at the end of the
-          workshops.<br/>
+          workshops.<br />
           Is distance and time taken to reach our campus the one last thing stopping you from
           attending our amazing workshops? Well, don&apos;t worry because we got you covered there
           too! We arrange in-campus accommodation during the workshops for participants at
@@ -43,9 +44,14 @@ function Workshops() {
 
         <div className='workshop-tile'>
           <div className="workshop-title">Upcoming Workshops</div>
-          <a href="https://unstop.com/o/5VIEHfj?utm_medium=Share&utm_source=srisri4756&utm_campaign=Workshops" target="_blank" rel="noopener noreferrer">
-            <img src={workshop_poster3} alt="" />
-          </a>
+
+          <div className="workshop-tile-poster">
+            <img src={workshop} alt="Workshop poster" />
+
+            <div className="workshop-tile-title">
+              Step into the world of Artificial Intelligence with ML Foundations: From Basics to Building Models, an exclusive workshop organized by Elan & nVision, a student body of IIT Hyderabad. Whether you're looking to start your AI journey or build real-world models, this workshop offers hands-on guidance and expert knowledge directly on campus!
+            </div>
+          </div>
         </div>
 
       </div>
