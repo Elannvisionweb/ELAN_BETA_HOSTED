@@ -1,10 +1,11 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import './VerticalMarquee.css';
 
 function VerticalMarquee() {
   useEffect(() => {
     function move() {
       const marquee = document.querySelector('.vertical-marquee');
+      if (!marquee) return;
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       // Combine continuous animation with subtle scroll-based offset
       marquee.style.animationDelay = `${-scrollTop * 0.01}s`;
@@ -15,109 +16,21 @@ function VerticalMarquee() {
     };
   }, []);
 
-  return (
-    <>
-      <a 
-        href='https://forms.gle/KwGMQzjWvLCYpwP6A' 
-        target='_blank' 
-        rel='noopener noreferrer'
-        className='vertical-marquee-link'
-      >
-        <div className='vertical-marquee-container' id='vertical-marquee-container'>
-          <div className='vertical-marquee' id='vertical-marquee'>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
-          <span className='vertical-marquee-text'>Fest Pass is Live! Register Now!</span>
-          <span className='vertical-marquee-star'>&#10022;</span>
+  const marqueeItems = Array(40).fill("Elan and nVision 2027");
 
-          </div>
+  return (
+    <div className='vertical-marquee-link' style={{ cursor: 'default' }}>
+      <div className='vertical-marquee-container' id='vertical-marquee-container'>
+        <div className='vertical-marquee' id='vertical-marquee'>
+          {marqueeItems.map((text, idx) => (
+            <span key={idx} style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <span className='vertical-marquee-text'>{text}</span>
+              <span className='vertical-marquee-star'>&#10022;</span>
+            </span>
+          ))}
         </div>
-      </a>
-    </>
+      </div>
+    </div>
   );
 }
 

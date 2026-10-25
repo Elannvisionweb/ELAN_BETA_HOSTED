@@ -25,29 +25,6 @@ const PhoneIcon = () => (
   </svg>
 );
 
-const CalendarIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-    <line x1="16" x2="16" y1="2" y2="6"/>
-    <line x1="8" x2="8" y1="2" y2="6"/>
-    <line x1="3" x2="21" y1="10" y2="10"/>
-  </svg>
-);
-
-const LocationIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-    <circle cx="12" cy="10" r="3"/>
-  </svg>
-);
-
-const CompassIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/>
-    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-  </svg>
-);
-
 const QrIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect width="5" height="5" x="3" y="3" rx="1"/>
@@ -81,11 +58,10 @@ const CloseIcon = () => (
 
 function Zonals() {
   const [isReady, setIsReady] = useState(false);
-  const [activeRegion, setActiveRegion] = useState("south"); // "south" | "north"
   const [activeModalEvent, setActiveModalEvent] = useState(null);
 
-  // Active region data accessor
-  const currentRegion = zonalRegions[activeRegion] || zonalRegions.south;
+  // Active region data accessor (North Zonal only)
+  const currentRegion = zonalRegions.north;
   const currentEvents = currentRegion.events;
 
   // Statistics count-up state
@@ -132,7 +108,7 @@ function Zonals() {
 
     revealElements.forEach((el) => revealObserver.observe(el));
     return () => revealObserver.disconnect();
-  }, [activeRegion]);
+  }, []);
 
   // ── Scroll-controlled competition wheel ──────────────────────────────────
   const [activeIndex, setActiveIndex] = useState(0);
@@ -140,18 +116,6 @@ function Zonals() {
   const scrollContainerRef = useRef(null);
   const stickyRef = useRef(null);
   const wheelRef = useRef(null);
-
-  // Region switch handler
-  const handleRegionChange = (newRegion) => {
-    if (newRegion === activeRegion) return;
-    setActiveRegion(newRegion);
-    setActiveIndex(0);
-    activeIndexRef.current = 0;
-    if (wheelRef.current) {
-      wheelRef.current.style.setProperty("--wheel-rotation", "0deg");
-      wheelRef.current.style.setProperty("--wheel-counter-rotation", "0deg");
-    }
-  };
 
   const updateWheelFromScroll = useCallback(() => {
     const container = scrollContainerRef.current;
@@ -299,10 +263,10 @@ function Zonals() {
   return (
     <>
       <Helmet>
-        <title>{`Elan & ηVision | ${currentRegion.name} Eliminations`}</title>
+        <title>{`Elan & nVision | ${currentRegion.name} Eliminations`}</title>
         <meta
           name="description"
-          content={`${currentRegion.name} Eliminations for Elan & ηVision IIT Hyderabad. Win prize worth ₹2,00,000 and earn a chance to perform live at the Grand Finale.`}
+          content={`${currentRegion.name} Eliminations for Elan & nVision IIT Hyderabad. Win prize worth ₹2,00,000 and earn a chance to perform live at the Grand Finale.`}
         />
       </Helmet>
 
@@ -314,72 +278,18 @@ function Zonals() {
         <header className="zonals-header">
           <div className="zonal-hero__top-row">
             <span className="zonal-hero__eyebrow section-pill-tag">
-              IIT HYDERABAD PRESENTS • ELAN & ηVISION 2027
+              IIT HYDERABAD PRESENTS • ELAN & nVISION 2027
             </span>
           </div>
 
-          {/* ================= REGION SELECTOR (TOP 2 OPTIONS: SOUTH & NORTH) ================= */}
+          {/* Region Identity Banner with Applications Open badge */}
           <div className="zonal-region-nav-wrap">
-            <div className="zonal-region-header-label">
-              <CompassIcon />
-              <span>SELECT YOUR ZONAL REGION:</span>
-            </div>
-
-            <div className="zonal-region-tabs" role="tablist" aria-label="Zonal Region Switcher">
-              {/* SOUTH ZONAL OPTION */}
-              <button
-                type="button"
-                role="tab"
-                id="tab-south"
-                aria-selected={activeRegion === "south"}
-                className={`zonal-region-tab ${activeRegion === "south" ? "is-active" : ""}`}
-                onClick={() => handleRegionChange("south")}
-              >
-                <div className="region-tab-left">
-                  <span className="region-tab-radio">
-                    <span className="region-tab-radio-dot" />
-                  </span>
-                  <div className="region-tab-info">
-                    <span className="region-tab-title">SOUTH ZONAL</span>
-                    <span className="region-tab-venue">Southern Region Hub</span>
-                  </div>
-                </div>
-                <div className="region-tab-right">
-                  <span className="region-date-pill">10 OCT</span>
-                  <span className="region-status-badge">APPLICATIONS OPEN</span>
-                </div>
-              </button>
-
-              {/* NORTH ZONAL OPTION */}
-              <button
-                type="button"
-                role="tab"
-                id="tab-north"
-                aria-selected={activeRegion === "north"}
-                className={`zonal-region-tab ${activeRegion === "north" ? "is-active" : ""}`}
-                onClick={() => handleRegionChange("north")}
-              >
-                <div className="region-tab-left">
-                  <span className="region-tab-radio">
-                    <span className="region-tab-radio-dot" />
-                  </span>
-                  <div className="region-tab-info">
-                    <span className="region-tab-title">NORTH ZONAL</span>
-                    <span className="region-tab-venue">Northern Region Hub</span>
-                  </div>
-                </div>
-                <div className="region-tab-right">
-                  <span className="region-date-pill">18 OCT</span>
-                  <span className="region-status-badge">APPLICATIONS OPEN</span>
-                </div>
-              </button>
-            </div>
-
-            {/* Active Region Info Banner */}
-            <div className="zonal-region-banner" key={currentRegion.id}>
+            <div className="zonal-region-banner">
               <div className="region-banner-badge">
                 <span className="pulse-indicator" />
-                <span>{currentRegion.shortName.toUpperCase()} ACTIVE</span>
+                <span>NORTH ZONE</span>
+                <span className="region-date-pill" style={{ marginLeft: '0.75rem' }}>1 NOV</span>
+                <span className="region-status-badge" style={{ marginLeft: '0.5rem' }}>APPLICATIONS OPEN</span>
               </div>
               <div className="region-banner-text">
                 <strong>Applications Sourced From:</strong> {currentRegion.coveredStates}
@@ -394,13 +304,43 @@ function Zonals() {
               </h1>
             </div>
             <div className="zonals-header-meta">
-              <span className="zonals-meta-date">{currentRegion.date}</span>
-              <span className="zonals-meta-sep">/</span>
-              <span className="zonals-meta-prize">₹2,00,000 PRIZE WORTH</span>
+              <span className="zonals-meta-date">1 NOV</span>
+              <span className="zonals-meta-sep">•</span>
+              <div className="zonals-meta-prize-badge">
+                <span className="prize-badge-label">PRIZE POOL</span>
+                <span className="prize-badge-val">₹2,00,000</span>
+              </div>
             </div>
           </div>
           <div className="zonal-hero__divider" />
         </header>
+
+        {/* ================= PROMINENT PRIZE POOL HERO BANNER ================= */}
+        <div className="zonal-prize-hero-banner zonal-reveal">
+          <div className="prize-hero-left">
+            <span className="prize-hero-eyebrow">GRAND ZONAL REWARDS</span>
+            <div className="prize-hero-amount-wrap">
+              <span className="prize-hero-currency">₹</span>
+              <span className="prize-hero-amount">2,00,000</span>
+              <span className="prize-hero-label">PRIZE POOL</span>
+            </div>
+            <p className="prize-hero-sub">Cash Awards & Direct Qualification for Grand Finale at IIT Hyderabad</p>
+          </div>
+          <div className="prize-hero-perks">
+            <div className="prize-perk-pill">
+              <span className="prize-perk-star">✦</span>
+              <span>5 Flagship Competitions</span>
+            </div>
+            <div className="prize-perk-pill">
+              <span className="prize-perk-star">✦</span>
+              <span>Eliminations Date: 1st November</span>
+            </div>
+            <div className="prize-perk-pill">
+              <span className="prize-perk-star">✦</span>
+              <span>Live Stage at Grand Finale</span>
+            </div>
+          </div>
+        </div>
 
         {/* ================= EDITORIAL OVERVIEW (Animation B) ================= */}
         <section className="zonals-overview-section zonal-reveal" aria-label="About Zonal Eliminations">
@@ -413,7 +353,7 @@ function Zonals() {
               <p className="format-text">
                 This is the first round of competition. Top-performing teams and soloists selected from the{" "}
                 <strong>{currentRegion.name}</strong> will receive direct berths to perform live at the Grand
-                Finale, held during Elan & ηVision at IIT Hyderabad (8th Jan – 10th Jan 2027).
+                Finale, held during Elan & nVision at IIT Hyderabad.
               </p>
             </div>
           </div>
@@ -423,27 +363,27 @@ function Zonals() {
               <span className="spec-label">ACTIVE ZONE</span>
               <span className="spec-val highlight-region">{currentRegion.name} ({currentRegion.hub})</span>
             </div>
-            {currentRegion.venue && (
-              <div className="spec-row">
-                <span className="spec-label">ELIMINATIONS VENUE</span>
-                <span className="spec-val highlight-venue">{currentRegion.venue}</span>
-              </div>
-            )}
             <div className="spec-row">
               <span className="spec-label">ELIMINATIONS DATE</span>
-              <span className="spec-val">{currentRegion.date}</span>
+              <span className="spec-val highlight-date">{currentRegion.date}</span>
             </div>
             <div className="spec-row">
               <span className="spec-label">APPLICATIONS SOURCED FROM</span>
               <span className="spec-val covered-states-val">{currentRegion.coveredStates}</span>
             </div>
-            <div className="spec-row">
-              <span className="spec-label">TOTAL PRIZE WORTH</span>
-              <span className="spec-val">{zonalsMeta.totalPrize}</span>
+            <div className="spec-row spec-row--prize-highlight">
+              <span className="spec-label">TOTAL PRIZE POOL</span>
+              <span className="spec-val highlight-prize-prominent">{zonalsMeta.totalPrize}</span>
             </div>
             <div className="spec-row">
               <span className="spec-label">GRAND FINALE</span>
               <span className="spec-val">{zonalsMeta.grandFinale}</span>
+            </div>
+            <div className="spec-row">
+              <span className="spec-label">PARTICIPANT PERKS</span>
+              <span className="spec-val">
+                Grand Stage Opportunity, Certificates, Concert Access & Official Goodies
+              </span>
             </div>
           </div>
         </section>
@@ -483,9 +423,9 @@ function Zonals() {
         {/* ================= FESTIVAL CONTEXT NOTE ================= */}
         <div className="fest-context-note zonal-reveal">
           <p>
-            Elan & ηVision is the annual techno-cultural fest of IIT Hyderabad and one of the largest
-            college fests of Southern India. Our dual Zonal structure ensures equitable nationwide access,
-            giving North and South performers dedicated stages and fair evaluation before the Hyderabad Grand Finale.
+            Elan & nVision is the annual techno-cultural fest of IIT Hyderabad. The North Zonal
+            Eliminations ensure nationwide access, giving talented performers a dedicated regional
+            stage and fair evaluation before the IIT Hyderabad Grand Finale.
           </p>
         </div>
 
@@ -526,7 +466,7 @@ function Zonals() {
               <div className="zonal-scroll__background" aria-hidden="true">
                 {currentEvents.map((event, index) => (
                   <div
-                    key={`${activeRegion}-${event.id}`}
+                    key={`north-${event.id}`}
                     className={`zonal-scroll__background-image ${activeIndex === index ? "is-active" : ""}`}
                   >
                     <img src={event.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
@@ -538,18 +478,15 @@ function Zonals() {
               <div className="zonal-scroll__details">
                 {currentEvents.map((event, index) => (
                   <article
-                    key={`${activeRegion}-${event.id}`}
+                    key={`north-${event.id}`}
                     className={`zonal-scroll__detail ${activeIndex === index ? "is-active" : ""}`}
                     aria-hidden={activeIndex !== index}
                     inert={activeIndex !== index ? "" : undefined}
                   >
                     <div className="event-top-meta">
                       <span className="event-order">0{index + 1}</span>
+                      <span className="event-date-chip">1 NOV</span>
                       <span className="event-badge">{event.category}</span>
-                      <span className="event-date-chip">
-                        <CalendarIcon />
-                        {event.date}
-                      </span>
                     </div>
 
                     <h2 className="event-title">{event.name}</h2>
@@ -563,15 +500,6 @@ function Zonals() {
 
                     {/* Details Grid */}
                     <div className="event-meta-list">
-                      {event.venue && (
-                        <div className="event-meta-row">
-                          <span className="meta-row-label">
-                            <LocationIcon /> VENUE:
-                          </span>
-                          <span className="meta-row-val">{event.venue}</span>
-                        </div>
-                      )}
-
                       <div className="event-meta-row">
                         <span className="meta-row-label">
                           <PhoneIcon /> COORDINATOR:
@@ -586,7 +514,7 @@ function Zonals() {
                       </div>
                     </div>
 
-                    {/* Actions */}
+                    {/* Actions: Registration links on Zonals are shown */}
                     <div className="event-actions-row">
                       <a
                         href={event.unstopUrl}
@@ -729,7 +657,7 @@ function Zonals() {
                 </h2>
               </div>
               <p className="contact-intro-text">
-                For queries regarding {currentRegion.name} applications, venue entry at {currentRegion.venueShort}, or event logistics, reach out to our regional leadership below.
+                For queries regarding {currentRegion.name} applications or event logistics, reach out to our regional leadership below.
               </p>
             </div>
 
@@ -739,7 +667,7 @@ function Zonals() {
                 <div className="coordinators-list">
                   {currentRegion.contacts.map((c, idx) => (
                     <div className="coordinator-item" key={idx}>
-                      <span className="coord-name">{c.name} <small style={{ color: '#888', fontSize: '0.75rem' }}>({c.role})</small></span>
+                      <span className="coord-name">{c.name}</span>
                       <a href={`tel:${c.tel}`} className="coord-phone">
                         <PhoneIcon /> {c.phone}
                       </a>
@@ -767,9 +695,7 @@ function Zonals() {
               <div className="contact-block zonal-reveal zonal-reveal--delay-3">
                 <div className="block-label">CENTRAL APPLICATION PORTAL</div>
                 <div className="unstop-box">
-                  <p className="unstop-desc">
-                    Applications arriving from {currentRegion.coveredStates}. Register your collegiate team directly on Unstop.
-                  </p>
+                  <p className="unstop-desc">{generalContacts.unstopInfo}</p>
                   <a
                     href="https://unstop.com"
                     target="_blank"
@@ -809,7 +735,6 @@ function Zonals() {
               <span className="modal-category">{currentRegion.shortName.toUpperCase()} • {activeModalEvent.category}</span>
               <h3 className="modal-event-title">{activeModalEvent.name}</h3>
               <p className="modal-prize-tag">PRIZE POOL: {activeModalEvent.prizePool}</p>
-              {activeModalEvent.venue && <p className="modal-venue-tag"><LocationIcon /> {activeModalEvent.venue}</p>}
             </div>
 
             <div className="modal-qr-frame">

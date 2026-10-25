@@ -1,9 +1,10 @@
 .vertical-marquee-link {
     text-decoration: none;
     position: fixed;
+    top: 0;
     right: 0;
     z-index: 1000;
-    cursor: pointer;
+    cursor: default;
 }
 
 .vertical-marquee-container {

@@ -3,7 +3,7 @@ export const domainsData = [
     id: "overall",
     name: "Overall Coordinators",
     tagline: "Vision, Strategy & Festival Direction",
-    description: "Leading the overarching vision, administrative synergy, and seamless inter-domain execution of Elan & ηVision.",
+    description: "Leading the overarching vision, administrative synergy, and seamless inter-domain execution of Elan & nVision.",
     heads: [
       {
         name: "Dhruv Goyal",

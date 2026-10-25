@@ -121,16 +121,8 @@ function Home() {
               Elan &<br />
             </span>
             <span ref={nvisionRef}>
-              <span className="eta">&eta;</span>Vision
+              nVision
             </span>
-            <a
-              href="https://forms.gle/KxVctrRgggJJfp7j7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="register-btn-wrapper"
-            >
-              <button className="register-btn">REGISTER NOW</button>
-            </a>
           </div>
           <div className="hero-sub-text">
             <div className="mobile-hide">{currentTime}</div>
@@ -145,16 +137,8 @@ function Home() {
               <br />
             </span>
             <span>
-              <span className="eta">&eta;</span>Vision
+              nVision
             </span>
-            <a
-              href="https://forms.gle/KxVctrRgggJJfp7j7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="register-btn-wrapper"
-            >
-              <button className="register-btn">REGISTER NOW</button>
-            </a>
           </div>
           <div className="hero-sub-text">
             <div className="mobile-hide">{currentTime}</div>

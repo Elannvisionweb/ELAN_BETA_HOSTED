@@ -1,6 +1,6 @@
 /* ==========================================================================
    Zonal Eliminations Stylesheet
-   Theme: Authentic Elan & ηVision IIT Hyderabad Monochrome Minimalist System
+   Theme: Authentic Elan & nVision IIT Hyderabad Monochrome Minimalist System
    Matches: Home, Competitions, Accommodation, and AboutUs Pages
    ========================================================================== */
 
@@ -53,7 +53,7 @@
 .zonals-header-meta {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -63,14 +63,184 @@
 
 .zonals-meta-date {
   color: #ffffff;
+  background: #111111;
+  border: 1px solid #2b2b2b;
+  padding: 0.35rem 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 
 .zonals-meta-sep {
   color: #333333;
 }
 
-.zonals-meta-prize {
+.zonals-meta-prize-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: #000000;
+  padding: 0.35rem 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+}
+
+.prize-badge-label {
+  font-size: 0.68rem;
+  color: #444444;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.prize-badge-val {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #000000;
+}
+
+/* ================= PROMINENT PRIZE POOL HERO BANNER ================= */
+.zonal-prize-hero-banner {
+  margin: 1.5rem 0 3rem 0;
+  background: linear-gradient(135deg, #0e0e0e 0%, #171717 50%, #0a0a0a 100%);
+  border: 1.5px solid #2a2a2a;
+  padding: 2.2rem 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.zonal-prize-hero-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 12px #ffffff;
+}
+
+.prize-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.prize-hero-eyebrow {
   color: #888888;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+.prize-hero-amount-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.prize-hero-currency {
+  font-family: "enigma", serif;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  color: #ffffff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.prize-hero-amount {
+  font-family: "enigma", serif;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.prize-hero-label {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.25rem);
+  font-weight: 700;
+  color: #aaaaaa;
+  letter-spacing: 0.15em;
+  margin-left: 0.8rem;
+  text-transform: uppercase;
+}
+
+.prize-hero-sub {
+  color: #888888;
+  font-size: 0.95rem;
+  margin: 0.3rem 0 0 0;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.prize-hero-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.prize-perk-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #282828;
+  padding: 0.65rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #e5e5e5;
+  transition: all 0.2s ease;
+}
+
+.prize-perk-pill:hover {
+  border-color: #555555;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.prize-perk-star {
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.highlight-prize-prominent {
+  color: #ffffff !important;
+  font-family: "enigma", serif;
+  font-size: 1.45rem !important;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.spec-row--prize-highlight {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.1rem !important;
+  border: 1px solid #282828 !important;
+  margin: 0.4rem 0;
+}
+
+.highlight-date {
+  color: #ffffff !important;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 900px) {
+  .zonal-prize-hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.6rem 1.4rem;
+    gap: 1.5rem;
+  }
 }
 
 /* ================= TOP REGION SELECTOR (SOUTH / NORTH) ================= */
@@ -1202,9 +1372,9 @@
 }
 
 .contact-call-btn {
-  background: transparent;
-  color: #aaaaaa;
-  border: 1px solid #222222;
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #333333;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1213,15 +1383,18 @@
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 1.2px;
-  padding: 0.85rem 1.4rem;
+  padding: 0.85rem 1.5rem;
   text-transform: uppercase;
+  text-decoration: none;
   transition: all 0.25s ease;
 }
 
 .contact-call-btn:hover {
-  border-color: #444444;
-  color: #ffffff;
-  background: #111111;
+  border-color: #ffffff;
+  color: #000000;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
 }
 
 /* Right Media Pane */

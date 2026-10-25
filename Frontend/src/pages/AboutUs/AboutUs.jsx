@@ -36,7 +36,7 @@ function AboutUs() {
   return (
     <>
       <Helmet>
-        <title>Elan & ηVision | Domains & Leadership</title>
+        <title>Elan & nVision | Domains & Leadership</title>
       </Helmet>
 
       {/* Standard festival vertical marquee */}
