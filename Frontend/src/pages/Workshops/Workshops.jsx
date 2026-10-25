@@ -42,21 +42,27 @@ function Workshops() {
           </Link>
         </div>
 
+
         <div className='workshop-tile'>
           <div className="workshop-title">Upcoming Workshops</div>
 
-          <div className="workshop-tile-poster">
-            <img src={workshop} alt="Workshop poster" />
+          <a
+            href="https://unstop.com/p/ml-foundations-from-basics-to-building-models-iit-hyderabad-1773767?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="workshop-tile-poster">
+              <img src={workshop} alt="Workshop poster" />
 
-            <div className="workshop-tile-title">
-              Step into the world of Artificial Intelligence with ML Foundations: From Basics to Building Models, an exclusive workshop organized by Elan & nVision, a student body of IIT Hyderabad. Whether you're looking to start your AI journey or build real-world models, this workshop offers hands-on guidance and expert knowledge directly on campus!
+              <div className="workshop-tile-title">
+                Step into the world of Artificial Intelligence with ML Foundations: From Basics to Building Models, an exclusive workshop organized by Elan & nVision, a student body of IIT Hyderabad. Whether you're looking to start your AI journey or build real-world models, this workshop offers hands-on guidance and expert knowledge directly on campus!
+              </div>
             </div>
-          </div>
+          </a>
         </div>
 
       </div>
     </>
   );
 }
-
 export default Workshops;
