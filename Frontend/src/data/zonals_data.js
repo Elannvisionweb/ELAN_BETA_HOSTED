@@ -56,7 +56,7 @@ export const zonalRegions = {
           "A group dance event that brings together coordination, creativity, and the strength of performing together as a team.",
         prizePool: "₹50,000/-",
         prizeNumeric: 50000,
-        unstopUrl: "https://unstop.com/p/breakfree-elan-nvision-2026-elan-nvision-iit-hyderabad-1599826?ref=north-zonal",
+        unstopUrl: "https://unstop.com/p/breakfree-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772450",
         contact: {
           name: "Amir Shaikh",
           phone: "+91 98906 43997",
@@ -75,7 +75,7 @@ export const zonalRegions = {
           "An individual dance event that showcases personal style, artistry, and stage presence in a solo performance.",
         prizePool: "₹25,000/-",
         prizeNumeric: 25000,
-        unstopUrl: "https://unstop.com/p/break-free-solo-elan-nvision-2026-elan-nvision-iit-hyderabad-1600402?ref=north-zonal",
+        unstopUrl: "https://unstop.com/p/vivid-motion-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772459",
         contact: {
           name: "Priyanshu Sharma",
           phone: "+91 90506 24137",
@@ -94,7 +94,7 @@ export const zonalRegions = {
           "A dance competition for pairs or trios that celebrates coordination, connection, and storytelling through shared movement.",
         prizePool: "₹40,000/-",
         prizeNumeric: 40000,
-        unstopUrl: "https://unstop.com/p/synced-souls-elan-nvision-2026-elan-nvision-iit-hyderabad-1600387?ref=north-zonal",
+        unstopUrl: "https://unstop.com/p/syncd-souls-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772457",
         contact: {
           name: "Anushka",
           phone: "+91 93585 15278",
@@ -113,7 +113,7 @@ export const zonalRegions = {
           "A fashion event that highlights confidence, presentation, and the art of styling on stage.",
         prizePool: "₹50,000/-",
         prizeNumeric: 50000,
-        unstopUrl: "https://unstop.com/p/glitz-and-glamour-elan-nvision-2026-elan-nvision-iit-hyderabad-1599845?ref=north-zonal",
+        unstopUrl: "https://unstop.com/p/glitz-glamour-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772468",
         contact: {
           name: "Amir Shaikh",
           phone: "+91 98906 43997",
@@ -132,7 +132,7 @@ export const zonalRegions = {
           "A solo singing competition that celebrates vocal talent, musical expression, and the individuality of every performer on stage.",
         prizePool: "₹40,000/-",
         prizeNumeric: 40000,
-        unstopUrl: "https://unstop.com/p/campus-idol-elan-nvision-2026-iit-hyderabad-1599650?ref=north-zonal",
+        unstopUrl: "https://unstop.com/p/campus-idol-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772451",
         contact: {
           name: "Priyanshu Sharma",
           phone: "+91 90506 24137",

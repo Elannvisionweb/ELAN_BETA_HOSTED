@@ -81,3 +81,5 @@ temptemp
 *.swp
 *~
 
+# Local Handoff Docs
+CONVERSATION_HISTORY.md
