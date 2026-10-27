@@ -5,6 +5,7 @@ import aiml_poster from '/src/assets/workshops_posters/aiml_poster.jpeg';
 import workshop_poster from '/src/assets/workshops_posters/workshop_poster.png';
 import workshop_poster3 from '/src/assets/workshops_posters/workshop_poster3.jpg';
 import workshop from '/src/assets/workshops_posters/workshop.png';
+import fighter_aircraft_workshop from '/src/assets/workshops_posters/fighter_aircraft_workshop.png';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -42,23 +43,40 @@ function Workshops() {
           </Link>
         </div>
 
+        <div className="workshop-title" style={{ marginTop: '6vh' }}>Upcoming Workshops</div>
 
-        <div className='workshop-tile'>
-          <div className="workshop-title">Upcoming Workshops</div>
+        <div className='workshop-tiles'>
+          <div className='workshop-tile'>
+            <a
+              href="https://unstop.com/p/ml-foundations-from-basics-to-building-models-iit-hyderabad-1773767?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="workshop-tile-poster">
+                <img src={workshop} alt="ML Foundations Workshop poster" />
 
-          <a
-            href="https://unstop.com/p/ml-foundations-from-basics-to-building-models-iit-hyderabad-1773767?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="workshop-tile-poster">
-              <img src={workshop} alt="Workshop poster" />
-
-              <div className="workshop-tile-title">
-                Step into the world of Artificial Intelligence with ML Foundations: From Basics to Building Models, an exclusive workshop organized by Elan & nVision, a student body of IIT Hyderabad. Whether you're looking to start your AI journey or build real-world models, this workshop offers hands-on guidance and expert knowledge directly on campus!
+                <div className="workshop-tile-title">
+                  Step into the world of Artificial Intelligence with ML Foundations: From Basics to Building Models, an exclusive workshop organized by Elan & nVision, a student body of IIT Hyderabad. Whether you're looking to start your AI journey or build real-world models, this workshop offers hands-on guidance and expert knowledge directly on campus!
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
+
+          <div className='workshop-tile'>
+            <a
+              href="https://unstop.com/p/fixed-wing-fighter-aircraft-design-a-hands-on-deep-dive-into-sizing-modelling-simulation-and-fly-demo-iit-hyderabad-1773186"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="workshop-tile-poster">
+                <img src={fighter_aircraft_workshop} alt="Fixed Wing Fighter Aircraft Design Workshop poster" />
+
+                <div className="workshop-tile-title">
+                  Explore aeronautical engineering with the 2-Day Fixed Wing Fighter Aircraft Design workshop organized by Elan & nVision, IIT Hyderabad in association with Namoona Aviation. Gain hands-on experience in aircraft sizing, aerofoil selection, Fusion 360 modelling, CFD simulation, practical electronics, and a live flight demo!
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
 
       </div>

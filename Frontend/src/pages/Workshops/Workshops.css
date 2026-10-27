@@ -18,19 +18,18 @@
 
 .workshop-tiles {
     display: flex;
-    gap: 5vh;
-    height: 50vh;
-    margin-top: 10vh;
+    gap: 4vw;
+    height: auto;
+    margin-top: 4vh;
     width: 100%;
-    /* wrap-option: wrap; */
 }
 
 .workshop-tile {
     display: flex;
     flex-direction: column;
     gap: 3vh;
-    width: 50%;
-    margin-top: 3vh;
+    flex: 1;
+    min-width: 0;
 }
 
 .workshop-tile > a {
