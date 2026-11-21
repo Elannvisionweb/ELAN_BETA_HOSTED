@@ -1,8 +1,8 @@
 import React from 'react';
 import './Workshops.css';
 import VerticalMarquee from '/src/components/VerticalMarquee/VerticalMarquee.jsx';
-import workshop_ml from '/src/assets/workshops_posters/workshop.png';
-import workshop_aircraft from '/src/assets/workshops_posters/fighter_aircraft_workshop.png';
+import workshop_cybersecurity from '/src/assets/workshops_posters/cybersecurity_ethical_hacking_workshop.jpg';
+import workshop_agentic from '/src/assets/workshops_posters/agentic_ai_workshop.jpg';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -38,21 +38,20 @@ const PhoneIcon = () => (
 
 const workshopsData = [
   {
-    id: 'ml-foundations',
-    title: 'ML Foundations: From Basics to Building Models',
-    domain: 'Artificial Intelligence',
-    subtitle: 'Organized by Elan & ηVision, Student Body of IIT Hyderabad',
-    poster: workshop_ml,
-    alt: 'Machine Learning Foundations Workshop Poster',
-    dates: '31st Oct & 1st Nov 2026',
+    id: 'cybersecurity-ethical-hacking',
+    title: 'Cybersecurity & Ethical Hacking',
+    domain: 'Cybersecurity',
+    subtitle: 'Foundations and Emerging Tools',
+    poster: workshop_cybersecurity,
+    alt: 'Cybersecurity & Ethical Hacking Workshop Poster',
+    dates: '28th & 29th Nov 2026',
     venue: 'IIT Hyderabad Campus',
-    unstopUrl: 'https://unstop.com/p/ml-foundations-from-basics-to-building-models-iit-hyderabad-1773767?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134',
-    description: 'Step into the world of Artificial Intelligence with an exclusive, hands-on workshop designed to take you from foundational mathematics and Python libraries to training and evaluating real-world predictive models directly on campus.',
+    unstopUrl: 'https://unstop.com/o/juFvZQd?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134',
+    description: "Step into the world of digital defense with Cybersecurity & Ethical Hacking: Foundations and Emerging Tools. Whether you're starting from zero or looking to explore modern security tools, this workshop equips you with essential concepts and practical exposure right on campus.",
     highlights: [
-      'Build a strong foundation in core Machine Learning concepts',
-      'Gain valuable insights directly from IIT Hyderabad PhD researchers',
-      'Receive official certification for all registered participants',
-      'Experience campus life with interactive sessions & activities'
+      'Learn Cybersecurity from scratch',
+      'Certificate for all Participants',
+      'Explore IIT Hyderabad Campus'
     ],
     coordinators: [
       { name: 'Akhil', phone: '9704960508', tel: '+919704960508' },
@@ -60,24 +59,23 @@ const workshopsData = [
     ]
   },
   {
-    id: 'fighter-aircraft-design',
-    title: '2-Day Fixed Wing Fighter Aircraft Design',
-    domain: 'Aerospace & Modelling',
-    subtitle: 'Organized by IIT Hyderabad in association with Namoona Aviation',
-    poster: workshop_aircraft,
-    alt: 'Fixed Wing Fighter Aircraft Design Workshop Poster',
-    dates: '31st Oct & 1st Nov 2026',
+    id: 'agentic-ai',
+    title: 'Agentic AI : Prompts to Autonomous Workflows',
+    domain: 'Artificial Intelligence',
+    subtitle: 'A hands-on learning experience',
+    poster: workshop_agentic,
+    alt: 'Agentic AI Workshop Poster',
+    dates: '28th & 29th Nov 2026',
     venue: 'IIT Hyderabad Campus',
-    unstopUrl: 'https://unstop.com/p/fixed-wing-fighter-aircraft-design-a-hands-on-deep-dive-into-sizing-modelling-simulation-and-fly-demo-iit-hyderabad-1773186',
-    description: 'A comprehensive, hands-on deep dive into modern fighter aircraft engineering. Learn aeronautical sizing, aerofoil selection, Fusion 360 3D CAD modelling, aerodynamic CFD simulations, avionics electronics, followed by a live flight demo.',
+    unstopUrl: 'https://unstop.com/o/laRvPCO?lb=eWyGjzSO&utm_medium=Share&utm_source=workshops&utm_campaign=Eventsei51134',
+    description: 'Join us for Agentic AI: Prompts to Autonomous Workflows, a hands-on learning experience. Discover how next-generation AI agents are reshaping real-world workflows and gain practical experience building intelligent, autonomous systems.',
     highlights: [
-      'Fixed wing aircraft aerodynamics, configurations and mission sizing',
-      'Aerofoil selection & parametric 3D CAD design in Fusion 360',
-      'Computational Fluid Dynamics (CFD) simulation with Simscale',
-      'Practical hands-on electronics assembly with a live flight demonstration'
+      'How Agentic AI is Transforming Workflows',
+      'Certificate for all Participants',
+      'Explore IIT Hyderabad Campus'
     ],
     coordinators: [
-      { name: 'Manogna', phone: '9154420779', tel: '+919154420779' },
+      { name: 'Akhil', phone: '9704960508', tel: '+919704960508' },
       { name: 'Tejeswar', phone: '8179771767', tel: '+918179771767' }
     ]
   }
@@ -101,7 +99,7 @@ function Workshops() {
         <div className='workshops-intro-layout'>
           <div className='workshops-intro-text'>
             <p>
-              Workshops at Elan &amp; &eta;Vision are engineered for intensive, hands-on learning in frontier domains &mdash; from foundational Machine Learning and AI to high-performance aeronautical design and simulation. Designed and led in collaboration with industry pioneers and IIT Hyderabad scholars, each session combines core theory with direct experiential execution.
+              Workshops at Elan &amp; &eta;Vision are engineered for intensive, hands-on learning in frontier domains &mdash; from cutting-edge Agentic AI and autonomous workflows to digital defense and ethical hacking. Designed and led in collaboration with industry pioneers and IIT Hyderabad scholars, each session combines core theory with direct experiential execution.
             </p>
             <p>
               Beyond the technical curriculum, take advantage of networking opportunities, student catch-up sessions, and friendly games during breaks. Planning to attend from out of town? We provide affordable on-campus hostel accommodation and economical city shuttle transport to make your stay effortless.
@@ -124,7 +122,7 @@ function Workshops() {
         {/* Upcoming Workshops Section */}
         <div className='workshops-section-header'>
           <div className='workshop-section-title'>Upcoming Workshops</div>
-          <div className='workshop-section-badge'>2 ACTIVE TRACKS &bull; OCT 31 &ndash; NOV 1</div>
+          <div className='workshop-section-badge'>2 ACTIVE TRACKS &bull; NOV 28 &ndash; NOV 29</div>
         </div>
 
         <div className='workshops-grid'>
