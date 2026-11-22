@@ -3,6 +3,7 @@ import './Workshops.css';
 import VerticalMarquee from '/src/components/VerticalMarquee/VerticalMarquee.jsx';
 import workshop_cybersecurity from '/src/assets/workshops_posters/cybersecurity_ethical_hacking_workshop.jpg';
 import workshop_agentic from '/src/assets/workshops_posters/agentic_ai_workshop.jpg';
+import workshop_aircraft from '/src/assets/workshops_posters/fighter_aircraft_workshop_dec.jpg';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -78,6 +79,29 @@ const workshopsData = [
       { name: 'Akhil', phone: '9704960508', tel: '+919704960508' },
       { name: 'Tejeswar', phone: '8179771767', tel: '+918179771767' }
     ]
+  },
+  {
+    id: 'fighter-aircraft-design',
+    title: '2-Day Fixed Wing Fighter Aircraft Design',
+    domain: 'Aerospace & Modelling',
+    subtitle: 'Interactive Workshop Organized by Student Body of IIT Hyderabad in association with Namoona Aviation & Intern Forage',
+    poster: workshop_aircraft,
+    alt: '2-Day Fixed Wing Fighter Aircraft Design Workshop Poster',
+    dates: '5th & 6th Dec 2026',
+    venue: 'IIT Hyderabad Campus',
+    unstopUrl: 'https://unstop.com/p/fixed-wing-fighter-aircraft-design-a-hands-on-deep-dive-into-sizing-modelling-simulation-and-fly-demo-iit-hyderabad-1803078',
+    description: 'A comprehensive, hands-on deep dive into modern fighter aircraft engineering in association with Namoona Aviation and Intern Forage. Learn aeronautical sizing, aerofoil selection, Fusion 360 3D CAD modelling, CFD simulations with Simscale, avionics electronics, 3D printing considerations, followed by a live flight demo on campus.',
+    highlights: [
+      'Fixed Wing Aircraft Basics, Types & Mission Sizing',
+      'Aerofoil Selection & Parametric 3D CAD Modelling in Fusion 360',
+      'Introduction to CFD & Simscale Simulation',
+      'Practical Hands-On with Electronics & Live Flight Demo',
+      '3D Printing Considerations & Live Printing Demo'
+    ],
+    coordinators: [
+      { name: 'Manogna', phone: '9154420779', tel: '+919154420779' },
+      { name: 'Tejeswar', phone: '8179771767', tel: '+918179771767' }
+    ]
   }
 ];
 
@@ -99,7 +123,7 @@ function Workshops() {
         <div className='workshops-intro-layout'>
           <div className='workshops-intro-text'>
             <p>
-              Workshops at Elan &amp; &eta;Vision are engineered for intensive, hands-on learning in frontier domains &mdash; from cutting-edge Agentic AI and autonomous workflows to digital defense and ethical hacking. Designed and led in collaboration with industry pioneers and IIT Hyderabad scholars, each session combines core theory with direct experiential execution.
+              Workshops at Elan &amp; &eta;Vision are engineered for intensive, hands-on learning in frontier domains &mdash; from cutting-edge Agentic AI and autonomous workflows to digital defense, ethical hacking, and high-performance fighter aircraft design &amp; simulation. Designed and led in collaboration with industry pioneers and IIT Hyderabad scholars, each session combines core theory with direct experiential execution.
             </p>
             <p>
               Beyond the technical curriculum, take advantage of networking opportunities, student catch-up sessions, and friendly games during breaks. Planning to attend from out of town? We provide affordable on-campus hostel accommodation and economical city shuttle transport to make your stay effortless.
@@ -122,7 +146,7 @@ function Workshops() {
         {/* Upcoming Workshops Section */}
         <div className='workshops-section-header'>
           <div className='workshop-section-title'>Upcoming Workshops</div>
-          <div className='workshop-section-badge'>2 ACTIVE TRACKS &bull; NOV 28 &ndash; NOV 29</div>
+          <div className='workshop-section-badge'>3 ACTIVE TRACKS &bull; NOV 28 &ndash; DEC 6</div>
         </div>
 
         <div className='workshops-grid'>
