@@ -31,14 +31,7 @@ function Accommodation() {
             : "We are delighted to announce that the fest is scheduled to take place from January 9th to January 11th. Designed as a comprehensive three-day celebration, the event promises a vibrant array of activities. To ensure an optimal and seamless experience, we highly recommend securing accommodation directly within the IIT Hyderabad campus. By residing on-site, you will have the unique opportunity to fully immerse yourself in the festivities and enjoy unparalleled convenience throughout the duration of the event."}
         </div>
 
-        <a
-          href="https://rzp.io/rzp/Cozfuh08"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="avail-accommodation-btn"
-        >
-          Avail accommodation
-        </a>
+
 
         <div className="general-info-title">General information</div>
         <div className="general-info-desc">
