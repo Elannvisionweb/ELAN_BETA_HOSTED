@@ -42,9 +42,11 @@ export const zonalRegions = {
     applicationNotice:
       "Collegiate performers and independent teams from Telangana, Maharashtra, Andhra Pradesh, and Odisha submit applications through the South Zonal portal below. Selected participants advance directly to the IIT Hyderabad Grand Finale.",
     contacts: [
-      { name: "Priyanshu Sharma", phone: "+91 90506 24137", tel: "+919050624137" },
-      { name: "Amir Shaikh", phone: "+91 98906 43997", tel: "+919890643997" },
-      { name: "Anushka", phone: "+91 93585 15278", tel: "+919358515278" },
+      { name: "Vaishnavi", phone: "+91 96862 52699", tel: "+919686252699" },
+      { name: "Surya Sri", phone: "+91 91544 28402", tel: "+919154428402" },
+      { name: "Pravin", phone: "+91 80554 46009", tel: "+918055446009" },
+      { name: "Priyanshu", phone: "+91 90506 24137", tel: "+919050624137" },
+      { name: "Amir", phone: "+91 98906 43997", tel: "+919890643997" },
     ],
     events: [
       {
@@ -60,9 +62,9 @@ export const zonalRegions = {
         prizeNumeric: 50000,
         unstopUrl: "https://unstop.com/p/breakfree-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807653",
         contact: {
-          name: "Amir Shaikh",
-          phone: "+91 98906 43997",
-          tel: "+919890643997",
+          name: "Vaishnavi",
+          phone: "+91 96862 52699",
+          tel: "+919686252699",
         },
         image: breakfreePhoto,
         qrImage: breakfreeQr,
@@ -80,9 +82,9 @@ export const zonalRegions = {
         prizeNumeric: 25000,
         unstopUrl: "https://unstop.com/p/vivid-motion-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1820932",
         contact: {
-          name: "Priyanshu Sharma",
-          phone: "+91 90506 24137",
-          tel: "+919050624137",
+          name: "Surya Sri",
+          phone: "+91 91544 28402",
+          tel: "+919154428402",
         },
         image: vividMotionPhoto,
         qrImage: vividMotionQr,
@@ -100,9 +102,9 @@ export const zonalRegions = {
         prizeNumeric: 40000,
         unstopUrl: "https://unstop.com/p/syncd-souls-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807663",
         contact: {
-          name: "Anushka",
-          phone: "+91 93585 15278",
-          tel: "+919358515278",
+          name: "Pravin",
+          phone: "+91 80554 46009",
+          tel: "+918055446009",
         },
         image: syncdSoulsPhoto,
         qrImage: syncdSoulsQr,
@@ -120,7 +122,7 @@ export const zonalRegions = {
         prizeNumeric: 50000,
         unstopUrl: "https://unstop.com/p/glitz-glamour-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807659",
         contact: {
-          name: "Amir Shaikh",
+          name: "Amir",
           phone: "+91 98906 43997",
           tel: "+919890643997",
         },
@@ -140,7 +142,7 @@ export const zonalRegions = {
         prizeNumeric: 40000,
         unstopUrl: "https://unstop.com/p/campus-idol-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807661",
         contact: {
-          name: "Priyanshu Sharma",
+          name: "Priyanshu",
           phone: "+91 90506 24137",
           tel: "+919050624137",
         },
@@ -186,9 +188,11 @@ export const pastArtists = [
 export const generalContacts = {
   unstopInfo: "Applications arriving from Telangana, Maharashtra, Andhra Pradesh & Odisha. Register your collegiate team directly on Unstop.",
   contacts: [
-    { name: "Priyanshu Sharma", phone: "+91 90506 24137", tel: "+919050624137" },
-    { name: "Amir Shaikh", phone: "+91 98906 43997", tel: "+919890643997" },
-    { name: "Anushka", phone: "+91 93585 15278", tel: "+919358515278" },
+    { name: "Vaishnavi", phone: "+91 96862 52699", tel: "+919686252699" },
+    { name: "Surya Sri", phone: "+91 91544 28402", tel: "+919154428402" },
+    { name: "Pravin", phone: "+91 80554 46009", tel: "+918055446009" },
+    { name: "Priyanshu", phone: "+91 90506 24137", tel: "+919050624137" },
+    { name: "Amir", phone: "+91 98906 43997", tel: "+919890643997" },
   ],
   email: "elan.nvision.outreach@sa.iith.ac.in",
 };
