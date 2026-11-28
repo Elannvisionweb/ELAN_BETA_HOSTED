@@ -28,18 +28,19 @@ export const zonalsMeta = {
 };
 
 export const zonalRegions = {
-  north: {
-    id: "north",
-    name: "North Zonal",
-    shortName: "North Zone",
-    code: "NZ-DEL-2027",
-    eyebrow: "NORTHERN REGION ELIMINATIONS",
-    hub: "Northern Hub",
-    date: "1st November",
-    shortDate: "1 NOV",
-    coveredStates: "Delhi NCR, Punjab, Haryana, Uttar Pradesh, Rajasthan, Chandigarh & Uttarakhand",
+  south: {
+    id: "south",
+    name: "South Zonal",
+    shortName: "South Zone",
+    code: "SZ-HYD-2027",
+    eyebrow: "SOUTHERN REGION ELIMINATIONS",
+    hub: "IIT Hyderabad Hub",
+    venue: "IIT Hyderabad",
+    date: "6th December",
+    shortDate: "6 DEC",
+    coveredStates: "Telangana, Maharashtra, Andhra Pradesh & Odisha",
     applicationNotice:
-      "Collegiate performers and independent teams from Northern states submit applications through the North Zonal portal below. Selected participants advance directly to the IIT Hyderabad Grand Finale.",
+      "Collegiate performers and independent teams from Telangana, Maharashtra, Andhra Pradesh, and Odisha submit applications through the South Zonal portal below. Selected participants advance directly to the IIT Hyderabad Grand Finale.",
     contacts: [
       { name: "Priyanshu Sharma", phone: "+91 90506 24137", tel: "+919050624137" },
       { name: "Amir Shaikh", phone: "+91 98906 43997", tel: "+919890643997" },
@@ -50,13 +51,14 @@ export const zonalRegions = {
         id: "breakfree",
         name: "Breakfree",
         category: "Group Dance",
-        date: "1st Nov",
+        date: "6th Dec",
+        venue: "IIT Hyderabad",
         badge: "Flagship Group Dance",
         description:
           "A group dance event that brings together coordination, creativity, and the strength of performing together as a team.",
         prizePool: "₹50,000/-",
         prizeNumeric: 50000,
-        unstopUrl: "https://unstop.com/p/breakfree-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772450",
+        unstopUrl: "https://unstop.com/p/breakfree-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807653",
         contact: {
           name: "Amir Shaikh",
           phone: "+91 98906 43997",
@@ -69,13 +71,14 @@ export const zonalRegions = {
         id: "vivid-motion",
         name: "Vivid Motion",
         category: "Solo Dance",
-        date: "1st Nov",
+        date: "6th Dec",
+        venue: "IIT Hyderabad",
         badge: "Solo Dance Showcase",
         description:
           "An individual dance event that showcases personal style, artistry, and stage presence in a solo performance.",
         prizePool: "₹25,000/-",
         prizeNumeric: 25000,
-        unstopUrl: "https://unstop.com/p/vivid-motion-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772459",
+        unstopUrl: "https://unstop.com/p/vivid-motion-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1820932",
         contact: {
           name: "Priyanshu Sharma",
           phone: "+91 90506 24137",
@@ -88,13 +91,14 @@ export const zonalRegions = {
         id: "syncd-souls",
         name: "Sync'd Souls",
         category: "Duet / Trio Dance",
-        date: "1st Nov",
+        date: "6th Dec",
+        venue: "IIT Hyderabad",
         badge: "Duet & Trio Dance",
         description:
           "A dance competition for pairs or trios that celebrates coordination, connection, and storytelling through shared movement.",
         prizePool: "₹40,000/-",
         prizeNumeric: 40000,
-        unstopUrl: "https://unstop.com/p/syncd-souls-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772457",
+        unstopUrl: "https://unstop.com/p/syncd-souls-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807663",
         contact: {
           name: "Anushka",
           phone: "+91 93585 15278",
@@ -107,13 +111,14 @@ export const zonalRegions = {
         id: "glitz-and-glamour",
         name: "Glitz And Glamour",
         category: "Fashion",
-        date: "1st Nov",
+        date: "6th Dec",
+        venue: "IIT Hyderabad",
         badge: "Fashion & Runway",
         description:
           "A fashion event that highlights confidence, presentation, and the art of styling on stage.",
         prizePool: "₹50,000/-",
         prizeNumeric: 50000,
-        unstopUrl: "https://unstop.com/p/glitz-glamour-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772468",
+        unstopUrl: "https://unstop.com/p/glitz-glamour-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807659",
         contact: {
           name: "Amir Shaikh",
           phone: "+91 98906 43997",
@@ -126,13 +131,14 @@ export const zonalRegions = {
         id: "campus-idol",
         name: "Campus Idol",
         category: "Solo Singing",
-        date: "1st Nov",
+        date: "6th Dec",
+        venue: "IIT Hyderabad",
         badge: "Vocal Talent Hunt",
         description:
           "A solo singing competition that celebrates vocal talent, musical expression, and the individuality of every performer on stage.",
         prizePool: "₹40,000/-",
         prizeNumeric: 40000,
-        unstopUrl: "https://unstop.com/p/campus-idol-duplicate-elan-nvision-2027-elan-nvision-iit-hyderabad-1772451",
+        unstopUrl: "https://unstop.com/p/campus-idol-south-zonals-elan-nvision-2027-elan-nvision-iit-hyderabad-1807661",
         contact: {
           name: "Priyanshu Sharma",
           phone: "+91 90506 24137",
@@ -145,8 +151,11 @@ export const zonalRegions = {
   },
 };
 
+// Aliases for compatibility
+zonalRegions.north = zonalRegions.south;
+
 // Export active zonal events directly
-export const zonalEvents = zonalRegions.north.events;
+export const zonalEvents = zonalRegions.south.events;
 
 export const festHighlights = [
   { value: "50,000+", label: "Attendees", detail: "Drawing crowds from IIT Hyderabad and beyond" },
@@ -175,7 +184,7 @@ export const pastArtists = [
 ];
 
 export const generalContacts = {
-  unstopInfo: "Applications arriving from Delhi NCR, Punjab, Haryana, UP, Rajasthan, Chandigarh & Uttarakhand. Register your collegiate team directly on Unstop.",
+  unstopInfo: "Applications arriving from Telangana, Maharashtra, Andhra Pradesh & Odisha. Register your collegiate team directly on Unstop.",
   contacts: [
     { name: "Priyanshu Sharma", phone: "+91 90506 24137", tel: "+919050624137" },
     { name: "Amir Shaikh", phone: "+91 98906 43997", tel: "+919890643997" },

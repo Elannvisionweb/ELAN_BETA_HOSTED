@@ -60,8 +60,8 @@ function Zonals() {
   const [isReady, setIsReady] = useState(false);
   const [activeModalEvent, setActiveModalEvent] = useState(null);
 
-  // Active region data accessor (North Zonal only)
-  const currentRegion = zonalRegions.north;
+  // Active region data accessor (South Zonal)
+  const currentRegion = zonalRegions.south || zonalRegions.north;
   const currentEvents = currentRegion.events;
 
   // Statistics count-up state
@@ -287,8 +287,8 @@ function Zonals() {
             <div className="zonal-region-banner">
               <div className="region-banner-badge">
                 <span className="pulse-indicator" />
-                <span>NORTH ZONE</span>
-                <span className="region-date-pill" style={{ marginLeft: '0.75rem' }}>1 NOV</span>
+                <span>{currentRegion.shortName.toUpperCase()}</span>
+                <span className="region-date-pill" style={{ marginLeft: '0.75rem' }}>{currentRegion.shortDate}</span>
                 <span className="region-status-badge" style={{ marginLeft: '0.5rem' }}>APPLICATIONS OPEN</span>
               </div>
               <div className="region-banner-text">
@@ -304,7 +304,7 @@ function Zonals() {
               </h1>
             </div>
             <div className="zonals-header-meta">
-              <span className="zonals-meta-date">1 NOV</span>
+              <span className="zonals-meta-date">{currentRegion.shortDate}</span>
               <span className="zonals-meta-sep">•</span>
               <div className="zonals-meta-prize-badge">
                 <span className="prize-badge-label">PRIZE POOL</span>
@@ -333,7 +333,7 @@ function Zonals() {
             </div>
             <div className="prize-perk-pill">
               <span className="prize-perk-star">✦</span>
-              <span>Eliminations Date: 1st November</span>
+              <span>Eliminations Date: {currentRegion.date}</span>
             </div>
             <div className="prize-perk-pill">
               <span className="prize-perk-star">✦</span>
@@ -366,6 +366,10 @@ function Zonals() {
             <div className="spec-row">
               <span className="spec-label">ELIMINATIONS DATE</span>
               <span className="spec-val highlight-date">{currentRegion.date}</span>
+            </div>
+            <div className="spec-row">
+              <span className="spec-label">VENUE</span>
+              <span className="spec-val highlight-date">{currentRegion.venue || "IIT Hyderabad"}</span>
             </div>
             <div className="spec-row">
               <span className="spec-label">APPLICATIONS SOURCED FROM</span>
@@ -423,8 +427,8 @@ function Zonals() {
         {/* ================= FESTIVAL CONTEXT NOTE ================= */}
         <div className="fest-context-note zonal-reveal">
           <p>
-            Elan & nVision is the annual techno-cultural fest of IIT Hyderabad. The North Zonal
-            Eliminations ensure nationwide access, giving talented performers a dedicated regional
+            Elan & nVision is the annual techno-cultural fest of IIT Hyderabad. The South Zonal
+            Eliminations ensure regional access, giving talented performers a dedicated regional
             stage and fair evaluation before the IIT Hyderabad Grand Finale.
           </p>
         </div>
@@ -466,7 +470,7 @@ function Zonals() {
               <div className="zonal-scroll__background" aria-hidden="true">
                 {currentEvents.map((event, index) => (
                   <div
-                    key={`north-${event.id}`}
+                    key={`south-${event.id}`}
                     className={`zonal-scroll__background-image ${activeIndex === index ? "is-active" : ""}`}
                   >
                     <img src={event.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
@@ -478,14 +482,14 @@ function Zonals() {
               <div className="zonal-scroll__details">
                 {currentEvents.map((event, index) => (
                   <article
-                    key={`north-${event.id}`}
+                    key={`south-${event.id}`}
                     className={`zonal-scroll__detail ${activeIndex === index ? "is-active" : ""}`}
                     aria-hidden={activeIndex !== index}
                     inert={activeIndex !== index ? "" : undefined}
                   >
                     <div className="event-top-meta">
                       <span className="event-order">0{index + 1}</span>
-                      <span className="event-date-chip">1 NOV</span>
+                      <span className="event-date-chip">{event.date ? event.date.toUpperCase() : currentRegion.shortDate}</span>
                       <span className="event-badge">{event.category}</span>
                     </div>
 
@@ -500,6 +504,10 @@ function Zonals() {
 
                     {/* Details Grid */}
                     <div className="event-meta-list">
+                      <div className="event-meta-row">
+                        <span className="meta-row-label">VENUE:</span>
+                        <span className="meta-row-val">{event.venue || currentRegion.venue || "IIT Hyderabad"}</span>
+                      </div>
                       <div className="event-meta-row">
                         <span className="meta-row-label">
                           <PhoneIcon /> COORDINATOR:
