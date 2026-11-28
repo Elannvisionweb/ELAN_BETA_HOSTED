@@ -291,9 +291,6 @@ function Zonals() {
                 <span className="region-date-pill" style={{ marginLeft: '0.75rem' }}>{currentRegion.shortDate}</span>
                 <span className="region-status-badge" style={{ marginLeft: '0.5rem' }}>APPLICATIONS OPEN</span>
               </div>
-              <div className="region-banner-text">
-                <strong>Applications Sourced From:</strong> {currentRegion.coveredStates}
-              </div>
             </div>
           </div>
 
